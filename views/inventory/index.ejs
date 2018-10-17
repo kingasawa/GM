@@ -1,0 +1,64 @@
+<!-- NOT USE -->
+<div class="container" id="admin-page">
+  <aside class="sidenav" style="display: none">
+    <%- partial ('../acp/menu-side.ejs') %>
+  </aside>
+
+  <div class="main-content" style="margin-left: 0">
+    <div class="head-content">
+      <a class="menu-button" href="#">
+        <div class="menu-arrow aright text-center">
+          <i class="fa fa-chevron-right pull-left"></i>
+        </div>
+      </a>
+      <a class="menu-button" href="#">
+        <div class="sr-only menu-arrow aleft text-center">
+          <i class="fa fa-chevron-left pull-left"></i>
+        </div>
+      </a>
+      <div class="menu-title">
+        <h4><span class="name-param">Inventory</span></h4>
+      </div>
+    </div>
+
+    <div class="detail-content" style="padding: 0" id="order-page">
+      <ul class="breadcrumb">
+        <li><a href="/acp"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active">Inventory</li>
+      </ul>
+
+
+
+      <div>
+        <table style="background:#fff" class="table table-hover new-order-hook" id="inventory-table">
+          <div class="panel panel-default">
+            <!--<div class="panel-heading">Panel heading without title</div>-->
+            <div class="panel-body">
+              <a href="/inventory/export_all_product" class="btn btn-success">
+                <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
+                Export All Product
+              </a>
+            </div>
+          </div>
+
+          <thead>
+          <tr>
+            <!--<th>ID</th>-->
+            <th>ProductID</th>
+            <th>MaterialId</th>
+            <th>Brand</th>
+            <th>Color</th>
+            <th>Size</th>
+            <th>OZs</th>
+            <th>Price</th>
+            <th>GTIN</th>
+            <th>Stock</th>
+            <th>SKU</th>
+            <!--<th>Date</th>-->
+          </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

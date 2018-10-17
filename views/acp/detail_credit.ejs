@@ -1,0 +1,83 @@
+<div class="se-pre-con"></div>
+<div class="container" id="admin-page">
+
+
+  <div style="margin-left:0" class="main-content">
+    <div class="head-content">
+      <a class="menu-button" href="#">
+        <div class="menu-arrow aright text-center">
+          <i class="fa fa-chevron-right pull-left"></i>
+        </div>
+      </a>
+      <a class="menu-button" href="#">
+        <div class="sr-only menu-arrow aleft text-center">
+          <i class="fa fa-chevron-left pull-left"></i>
+        </div>
+      </a>
+      <div class="menu-title">
+        <h4><span class="name-param">Credit</span></h4>
+      </div>
+    </div>
+
+    <div class="detail-content" id="order-page">
+
+
+      <div class="alert alert-success">
+        Report for user: <strong> <%= data.creditDetail[0].username %></strong> From <strong>2017-04-01 13:03:07+00</strong> To <strong>2017-08-11 13:25:26+00</strong>
+      </div>
+
+
+
+      <div style="margin:5px" class="pull-right"><button class="btn btn-success credit-mark-paid">Mark as paid</button></div>
+
+      <table style="background:#fff" class="display table-responsive table table-hover" id="credit-detail-table">
+        <div class="form-group">
+          <select class="form-control" style="width: 50%" id="shop-filter" >
+            <option>All Stores</option>
+            <%_.each(data.shopData, (shop) => {%>
+            <option><%=shop%></option>
+            <%})%>
+          </select>
+        </div>
+
+        <thead>
+        <tr>
+          <th>Shop</th>
+          <th>Order</th>
+          <th>Date</th>
+          <th>Quantity</th>
+          <th>Base Cost</th>
+          <th>Shipping Fee</th>
+          <th>Amount</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <% _.each(data.creditDetail,function(detail) { %>
+          <tr>
+            <td><%= detail.shop %></td>
+            <td><%= detail.order_name %></td>
+            <td><%= sails.moment(detail.createdAt).format('MM/DD/YYYY h:mm a') %></td>
+
+            <td><span class="total-item"><%= detail.total_item %></span></td>
+            <td>$<span class="total-basecost"><%= detail.total_item_basecost %></span></td>
+            <td>$<span class="shipping-fee"><%= detail.shipping_fee %></span></td>
+            <td>$<span class="total-item-price"><%= detail.total_item_price %></span></td>
+          </tr>
+        <% }) %>
+
+        </tbody>
+        <tfoot style="background:#dedede">
+        <tr>
+          <td colspan="3"><strong>Total</strong></td>
+          <td><strong><span class="totalQuantity"><%= data.totalQuantity %></span></strong></td>
+          <td><strong>$<span class="totalBaseCost"><%= parseFloat(data.totalBaseCost).toFixed(2) %></span></strong></td>
+          <td><strong>$<span class="totalShippingFee"><%= parseFloat(data.totalShippingFee).toFixed(2) %></span></strong></td>
+          <td><strong>$<span class="totalAmount"><%= parseFloat(data.totalAmount).toFixed(2) %></span></strong></td>
+        </tr>
+        </tfoot>
+
+      </table>
+    </div>
+  </div>
+</div>

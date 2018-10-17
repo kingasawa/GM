@@ -1,0 +1,66 @@
+
+<div class="container" id="admin-page">
+  <aside class="sidenav">
+    <%- partial ('menu-side.ejs') %>
+  </aside>
+
+  <div class="main-content">
+    <div class="head-content">
+      <a class="menu-button" href="#">
+        <div class="menu-arrow aright text-center">
+          <i class="fa fa-chevron-right pull-left"></i>
+        </div>
+      </a>
+      <a class="menu-button" href="#">
+        <div class="sr-only menu-arrow aleft text-center">
+          <i class="fa fa-chevron-left pull-left"></i>
+        </div>
+      </a>
+      <div class="menu-title">
+        <h4><span class="name-param">Managers</span></h4>
+      </div>
+    </div>
+
+    <div class="detail-content" id="manager-page">
+      <ul class="breadcrumb">
+        <li><a href="/acp"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active">Managers</li>
+      </ul>
+
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Manager</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% _.each(foundManager, function(manager) { %>
+        <tr>
+          <td><%= manager.id %></td>
+          <td><a href="#"><%= manager.email %></a></td>
+          <td>Active</td>
+          <td><%= manager.createdAt %></td></td>
+          <td>
+            <div class="btn-group">
+              <a class="btn btn-default" href="#"><i class="fa fa-pencil"></i></a>
+              <a class="btn btn-default" href="#"><i class="fa fa-trash"></i></a>
+            </div>
+          </td>
+        </tr>
+        <% }) %>
+
+
+        </tbody>
+      </table>
+    </div>
+
+
+
+
+
+  </div>
+</div>

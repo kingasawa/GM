@@ -1,0 +1,57 @@
+
+<div class="container" id="admin-page">
+  <aside class="sidenav">
+    <%- partial ('menu-side.ejs') %>
+  </aside>
+
+  <div class="main-content">
+    <div class="head-content">
+      <a class="menu-button" href="#">
+        <div class="menu-arrow aright text-center">
+          <i class="fa fa-chevron-right pull-left"></i>
+        </div>
+      </a>
+      <a class="menu-button" href="#">
+        <div class="sr-only menu-arrow aleft text-center">
+          <i class="fa fa-chevron-left pull-left"></i>
+        </div>
+      </a>
+      <div class="menu-title">
+        <h4><span class="name-param">Designs</span></h4>
+      </div>
+    </div>
+
+    <div class="detail-content" id="design-page">
+      <ul class="breadcrumb">
+        <li><a href="/acp"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active">Designs</li>
+      </ul>
+      <div id="seller-page-notice"></div>
+      <table class="table table-hover" id="design-table">
+        <thead>
+        <tr>
+          <th>Image</th>
+          <th>Design ID</th>
+          <th>Seller</th>
+          <th>Date</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+
+      </table>
+    </div>
+    <div class="modal fade" id="imagemodal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content"  >
+          <div style="text-align:center" class="modal-body">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <img src="" class="imagepreview">
+          </div>
+          <div class="modal-footer">
+            <a class="btn-block download-origin" href="" download>Download origin</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

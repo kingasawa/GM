@@ -1,0 +1,65 @@
+<h4>Picklist by <%= pickText %></h4>
+
+<% if (pickText == 'Item') { %>
+<table style="background:#fff" class="display table-responsive table table-hover" id="acp-picklist-table">
+  <thead>
+  <tr>
+    <th>Production ID</th>
+    <th>Product</th>
+    <th>Quantity</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% _.each(productArray, function(product) { %>
+  <tr>
+    <td><%= product.productId %></td>
+    <td><%= product.product %></td>
+    <td><%= product.quantity %></td>
+  </tr>
+  <% }) %>
+  </tbody>
+
+</table>
+<% } else { %>
+
+<table style="background:#fff" class="display table-responsive table table-hover">
+  <thead>
+  <tr>
+    <th>Design ID</th>
+    <th>Product</th>
+    <th>Quantity</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% _.each(productArray, function(product) { %>
+  <tr>
+    <td></td>
+  </tr>
+  <% }) %>
+  </tbody>
+</table>
+
+<% } %>
+
+
+<script>
+  $.fn.dataTable.Buttons.defaults;
+
+  $('#acp-picklist-table').DataTable({
+    "bSort": false,
+    paging: false,
+    searching: false,
+    processing: false,
+    info: false,
+    "columnDefs": [
+      {
+        "width": "150px",
+        "targets": 0
+      }
+    ],
+//    buttons: true,
+    ordering: false,
+//    dom: 'Bfrtip',
+    buttons: [ 'copy', 'csv', 'excel' ]
+  })
+</script>

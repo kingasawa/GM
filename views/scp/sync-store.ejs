@@ -1,0 +1,53 @@
+
+<div class="container" id="seller-page">
+  <aside class="sidenav">
+    <%- partial ('menu-side.ejs') %>
+  </aside>
+
+  <div class="main-content">
+    <div class="head-content">
+      <a class="menu-button" href="#">
+        <div class="menu-arrow aright text-center">
+          <i class="fa fa-chevron-right pull-left"></i>
+        </div>
+      </a>
+      <a class="menu-button" href="#">
+        <div class="sr-only menu-arrow aleft text-center">
+          <i class="fa fa-chevron-left pull-left"></i>
+        </div>
+      </a>
+      <div class="menu-title">
+        <h4><span class="name-param">Stores</span></h4>
+      </div>
+    </div>
+
+    <div class="detail-content" id="sync-page">
+      <ul class="breadcrumb">
+        <li><a href="/scp"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="/scp/store">Store</a></li>
+        <li class="active">Sync</li>
+      </ul>
+      <div class="sync-section">
+        <div class="col-xs-3"><img style="max-width:100%" src="../images/shopify.png"></div>
+        <div class="col-xs-9">
+          <h3>Connect Shopify store</h3>
+          <p>Easily create and fulfil products for your existing Shopify Store with Represent. Connect your store to get started.</p>
+          <form action="/shopify" method="post">
+          <div class="col-sm-9">
+            <div class="input-group">
+              <input class="sr-only" name="uid" value="<%= req.session.user.id %>">
+              <input class="form-control input-lg" name="shopifyname" placeholder="Store name" required="true" type="text">
+              <span class="input-group-addon">.myshopify.com</span>
+            </div>
+          </div>
+          <div class="col-sm-3"><button class="button-color btn btn-primary" type="submit">Connect</button></div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+
+
+  </div>
+</div>

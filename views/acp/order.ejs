@@ -1,0 +1,143 @@
+<div class="se-pre-con"></div>
+<div class="container" id="admin-page">
+  <aside class="sidenav">
+    <%- partial ('menu-side.ejs') %>
+  </aside>
+
+  <div class="main-content">
+    <div class="head-content">
+      <a class="menu-button" href="#">
+        <div class="menu-arrow aright text-center">
+          <i class="fa fa-chevron-right pull-left"></i>
+        </div>
+      </a>
+      <a class="menu-button" href="#">
+        <div class="sr-only menu-arrow aleft text-center">
+          <i class="fa fa-chevron-left pull-left"></i>
+        </div>
+      </a>
+      <div class="menu-title">
+        <h4><span class="name-param">Orders</span></h4>
+      </div>
+    </div>
+
+    <div class="detail-content" id="order-page">
+      <ul class="breadcrumb">
+        <li><a href="/acp"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active">Orders</li>
+      </ul>
+
+      <div class="auto-charge-notify hide fade alert"></div>
+
+      <div style="display:none" class="show-count-pickup">
+        <div class="btn-group">
+
+          <button style="margin:0" type="button" class="count-pickup btn btn-success">Choose <span class="update-val">0</span> Order</button>
+          <div class="btn-group">
+            <button style="margin:0" type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+              Bulk action <span class="caret"></span></button>
+            <ul class="dropdown-menu" role="menu">
+              <!--<li><a style="font-weight:bold;color:#eee;background:#6d6d6d" class="mark-as-production" href="#">Change status to In-Production</a></li>-->
+              <li><a class="picklist" data-text="order" href="#">Picklist by order</a></li>
+              <li><a class="picklist" data-text="item" href="#">Picklist by item</a></li>
+              <li class="divider"></li>
+              <li><a class="download_design" href="#">Download designs</a></li>
+              <!--<li><a class="picklist" data-text="mark" data-status="In-Production" href="#">Mark as In-Production</a></li>-->
+              <!--<li><a class="picklist" data-text="mark" data-status="Back-Order" href="#">Mark as Back Order</a></li>-->
+              <li><a class="mark-as-pickup" href="#">Mark as Picked</a></li>
+              <li><a class="mark-as-print" href="#">Mark as Printed</a></li>
+              <li><a class="mark-as-cs" href="#">Mark as CS</a></li>
+              <li class="divider"></li>
+              <li><a class="export-order-csv" href="#">Export Order to CSV</a></li>
+              <li class="divider"></li>
+              <li><a class="remove-tag" href="#">Remove Tags</a></li>
+            </ul>
+          </div>
+        </div>
+        </div>
+
+      <div id="orderreportrange" class="hidden btn btn-default">
+        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+        <span></span> <b class="caret"></b>
+      </div>
+
+      <button type="button" id="export-order-csv" class="hidden btn btn-success"><i class="fa fa-list-alt"></i> Export CSV</button>
+      <!--<ul class="nav nav-pills">-->
+        <!--<li><a href="/acp/order">All order</a></li>-->
+        <!--<li><a href="/acp/order?tracking=pending">Pending</a></li>-->
+        <!--<li><a href="/acp/order?tracking=Awaiting-Fulfillment">Awaiting-Fulfillment</a></li>-->
+        <!--<li><a href="/acp/order?tracking=In-Production">In-Production</a></li>-->
+        <!--<li><a href="/acp/order?tracking=Fulfilled">Fulfilled</a></li>-->
+        <!--<li><a href="/acp/order?tracking=Cancelled">Cancelled</a></li>-->
+      <!--</ul>-->
+
+
+      <table style="background:#fff" class="display table-responsive table table-hover new-order-hook" id="acp-order-table">
+        <div class="order-table-filter">
+          <div class="hidden form-group col-sm-6">
+            <select class="form-control" style="width: 100%" id="user-filter" >
+              <option>All Users</option>
+
+            </select>
+          </div>
+          <div class="form-group col-sm-6">
+            <select class="form-control" style="width: 100%" id="shop-filter" >
+              <option>All Stores</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="status-filter">
+          <ul class="nav nav-pills">
+
+            <li><a id="all-order" href="#All">All orders (<span>0</span>)</a></li>
+            <li><a id="pending-order" href="#Pending">Pending (<span>0</span>)</a></li>
+            <li><a id="back-order" href="#Back-Order">Back-Order (<span>0</span>)</a></li>
+            <!--<li><a id="awaiting-fulfillment-order" href="#Awaiting-Fulfillment">Awaiting-Fulfillment (<span>0</span>)</a></li>-->
+            <li><a id="in-production-order" href="#In-Production">In-Production (<span>0</span>)</a></li>
+            <li><a id="fulfilled-order" href="#Fulfilled">Fulfilled (<span>0</span>)</a></li>
+            <li><a id="cancelled-order" href="#Cancelled">Cancelled (<span>0</span>)</a></li>
+            <li><a id="picked" href="#Picked">Picked</a></li>
+            <li><a id="printed" href="#Printed">Printed</a></li>
+            <li><a id="cs" href="#CS">CS</a></li>
+          </ul>
+
+        </div>
+        <select style="margin: 7px 5px;height: 30px" class="pull-right" name="sort-by" id="sort-by">
+          <option value="desc">Sort by Newest</option>
+          <option value="asc">Sort by Latest</option>
+        </select>
+        <thead>
+        <tr>
+          <th><input type="checkbox" class="choose-all-order"></th>
+          <th>Tag</th>
+          <th>Production ID</th>
+
+          <th>Date</th>
+          <th>User</th>
+          <th>Store</th>
+
+          <th>Order ID</th>
+
+          <th>Customer</th>
+          <!--<th class="sr-only">Owner</th>-->
+          <!--<th class="sr-only">Total Paid</th>-->
+          <th>Status</th>
+          <th>Base Cost</th>
+          <th>Shipping Cost</th>
+          <th>Total Cost</th>
+
+        </tr>
+        </thead>
+
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(function() {
+
+  });
+
+</script>

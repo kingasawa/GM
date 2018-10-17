@@ -1,0 +1,602 @@
+<div class="container" id="admin-page">
+
+  <aside class="sidenav">
+    <%- partial('../acp/menu-side.ejs') %>
+  </aside>
+
+  <div class="main-content">
+
+    <div class="head-content">
+      <a class="menu-button" href="#">
+        <div class="menu-arrow aright text-center">
+          <i class="fa fa-chevron-right pull-left"></i>
+        </div>
+      </a>
+      <a class="menu-button" href="#">
+        <div class="sr-only menu-arrow aleft text-center">
+          <i class="fa fa-chevron-left pull-left"></i>
+        </div>
+      </a>
+      <div class="menu-title">
+        <h4><span class="name-param">Product Sample</span></h4>
+
+      </div>
+      <!--<button type="button" class="btn btn-primary">Add product sample</button>-->
+    </div>
+
+    <div class="detail-content" id="product-page">
+      <ul class="breadcrumb">
+        <li><a href="/acp"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="/inventory">Inventory</a></li>
+        <li class="active">Product</li>
+      </ul>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">Product<strong></strong></div>
+            <div class="panel-body">
+              <form id="product-form" action="/inventory/postProduct">
+                <input type="hidden" name="id" value="<%=id%>" >
+                <div class="col-md-8">
+                  <div class="form-group">
+                    <label for="name">Title:</label>
+                    <input type="text" class="form-control"
+                           name="name"
+                           value="<%= _.get(materialData, 'name') %>"
+                    >
+                  </div>
+                  <div class="form-group">
+                    <label for="description">Description:</label>
+                    <input type="text" class="form-control" id="product-description"
+                           name="description"
+                           value="<%= _.get(materialData, 'description') %>"
+                    >
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="panel panel-default">
+                    <div class="panel-body">
+                      <div class="form-group">
+                        <label>Brand:</label>
+                        <input type="text" class="form-control"
+                               name="brand"
+                               value="<%= _.get(materialData, 'brand', '') %>">
+                        <!--<select class="form-control" id="brand-select">-->
+                        <!--<option value="3620194" selected="selected"><%= _.get(materialData,
+                          'brand',
+                          '') %></option>-->
+                        <!--</select>-->
+                      </div>
+                      <div class="form-group">
+                        <label>Brand Code:</label>
+                        <input type="text" class="form-control"
+                               name="brand_code"
+                               value="<%= _.get(materialData, 'brand_code', '') %>"
+                        >
+                      </div>
+                      <div class="form-group">
+                        <label>Product Type:</label>
+                        <input type="text" class="form-control"
+                               name="product_type"
+                               value="<%= _.get(materialData, 'product_type', '') %>"
+                        >
+                      </div>
+                      <div class="form-group">
+                        <label>Cost:</label>
+                        <input type="text" class="form-control"
+                               name="cost"
+                               value="<%= _.get(materialData, 'cost[0].cost', '') %>"
+                        >
+                      </div>
+                      <div class="form-group">
+                        <label>MinPay:</label>
+                        <input type="text" class="form-control"
+                               name="minPay"
+                               value="<%= _.get(materialData, 'cost[0].minPay', '') %>"
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <p>
+                    <label for="color-select">Color:</label><br>
+                    <select name="color" class="form-control" id="color-select" multiple="multiple">
+                      <% _.each(materialDataColorSorted, function(color) { %>
+                      <option value="<%= color.id %>" selected="selected"
+                              title="<%= color.value %>"
+                      >
+                        <%= color.name %>
+                      </option>
+                      <% }) %>
+
+                    </select>
+                  </p>
+                  <p>
+                    <label for="size-select">Size:</label><br>
+                    <select name="size" class="form-control" id="size-select" multiple="multiple">
+                      <% _.each(materialDataSizeSorted, function(size) { %>
+                      <option value="<%= size.id %>" selected="selected"
+                              title="<%= size.value %>"
+                      >
+                        <%= size.size %>
+                      </option>
+                      <% }) %>
+                    </select>
+
+                  </p>
+                </div>
+                <input type="submit" class="btn btn-primary btn-block" value="Submit"/>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default product-variants">
+        <div class="panel-heading">Variants<strong></strong></div>
+        <div class="panel-body">
+          <div class="alert alert-danger hidden" id="variant-warning">
+            <strong>Warning!</strong> <ul id="variant-warning-msg"></ul>
+          </div>
+          <table id="product-variant-table"
+                 data-toggle="table"
+                 data-page-list="[50, 100]"
+                 data-page-size="50"
+                 data-show-export="true"
+                 data-height="700"
+                 data-url="/inventory/getProductData?id=<%= id %>"
+                 data-pagination="true"
+                 data-search="true"
+                 xdata-sort-name="size"
+                 xdata-sort-order="desc"
+
+                 data-id-field="id"
+                 data-editable-emptytext="Empty"
+                 data-editable-url="/inventory/updateVariant"
+          >
+            <thead>
+            <tr>
+              <th data-field="id" data-sortable="true">ID</th>
+              <th data-field="color" data-sortable="true">Color</th>
+              <th data-field="size" data-sortable="true">Size</th>
+              <th data-field="base_price"
+                  data-editable="true"
+                  data-sortable="true">Price
+              </th>
+              <th data-field="gtin"
+                  xdata-editable-pk="1"
+                  xdata-editable-url="/postxxx"
+                  data-editable-name="gtin"
+                  data-editable="true"
+                  data-sortable="true">GTIN
+              </th>
+              <th data-field="stock"
+                  data-editable="true"
+                  data-sortable="true">Stock
+              </th>
+            </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">Image<strong></strong></div>
+        <div class="panel-body">
+          <div class="form-group col-md-6">
+            <label class="control-label">Front Image</label>
+            <form style="
+              background:url(<%= _.get(materialData, 'image[0].image.frontimg') %>);
+              background-size: contain;
+              background-repeat: no-repeat;
+              background-position: center center;
+              " action="/uploader" class="dropzone"
+                  id="productFrontImage">
+              <input type="hidden" name="frontimg"
+                     value="<%=_.get(materialData, 'image[0].image.frontimg')%>"
+              />
+            </form>
+          </div>
+          <div class="form-group col-md-6">
+            <label class="control-label">Back Image</label>
+            <input type="hidden" name="backimg" />
+            <form style="
+              background:url(<%= _.get(materialData, 'image[0].image.backimg') %>);
+              background-size: contain;
+              background-repeat: no-repeat;
+              background-position: center center;
+              " action="/uploader" class="dropzone"
+                  id="productBackImage">
+              <input type="hidden" name="backimg" value="<%=_.get(materialData, 'image[0].image.backimg')%>" />
+            </form>
+          </div>
+
+          <input type="submit" class="btn btn-primary btn-block product-submit" value="Submit"/>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+  $(function() {
+    $.fn.editable.defaults.mode = 'popup';
+
+    //searchText
+    $.fn.select2.defaults.set("width", "100%");
+
+    //
+    CKEDITOR.replace('product-description');
+    var productDesc = $('#product-description').val()
+    CKEDITOR.instances['product-description'].setData(productDesc);
+    CKEDITOR.instances['product-description'].on('contentDom', function() {
+      CKEDITOR.instances['product-description'].document.on('keyup', function(event) {
+        var data = CKEDITOR.instances['product-description'].getData();
+        $('#product-description').val(data);
+      });
+    });
+
+    var productId = getParam('productId')
+
+//    console.log('productId', productId);
+    if(productId){
+      $('#product-variant-table').bootstrapTable('resetSearch', productId);
+      setTimeout(function(){
+        $.scrollTo('.product-variants', 250)
+      },100)
+    }
+
+//    $('#product-variant-table').bootstrapTable('refresh');
+
+    $('#product-variant-table').on('editable-save.bs.table', function (field, row, oldValue, $el) {
+//      console.log('save row', row);
+      if(row === 'base_price'){
+        noty({
+          text: `Price ${oldValue.base_price} is update for all color size ${oldValue.size}!`,
+          type: 'success'
+        })
+        $('#product-variant-table').bootstrapTable('refresh');
+      }
+      getVariantWarning();
+//      console.log('save field', field);
+//      console.log('save oldValue', oldValue);
+//      console.log('save $el', $el);
+      return false
+    });
+    $('#product-variant-table').on('editable-shown.bs.table', function (field, row, $el, editable) {
+      if(row === 'base_price'){
+        noty({
+          text: `Warning! Price will be updated for all Color within this Size!`,
+          type: 'warning'
+        })
+      }
+//      console.log('show row', row);
+//      console.log('show field', field);
+//      console.log('show $el', $el);
+//      console.log('show editable', editable);
+////      return false
+    });
+
+    function getVariantWarning(id){
+      id = id || getParam('id');
+      socket.get(`/inventory/getVariantWarning?id=${id}`,function(res){
+        let { priceWarningData, gtinWarningData, lowStockWarningData, stockWarningData } = res;
+        if(priceWarningData > 0 ||
+           gtinWarningData  > 0||
+           lowStockWarningData  > 0||
+           stockWarningData  > 0
+        ){
+          $('#variant-warning').removeClass('hidden');
+          $('#variant-warning #variant-warning-msg').html('');
+          var duration = 0.3;
+          if(lowStockWarningData){
+            $('#variant-warning #variant-warning-msg').append(`<li id='lowStockWarningData'><b>${lowStockWarningData}</b> Variant has low stock</li>`)
+            var numAnim = new CountUp($('#lowStockWarningData b')[0], 0, lowStockWarningData,null ,duration);
+            numAnim.start();
+          }
+
+          if(priceWarningData){
+            $('#variant-warning #variant-warning-msg').append(`<li id='priceWarningData'><b>${priceWarningData}</b> Variant don't have price</li>`)
+            var numAnim = new CountUp($('#priceWarningData b')[0], 0, priceWarningData, null ,duration);
+            numAnim.start();
+          }
+          if(gtinWarningData){
+            $('#variant-warning #variant-warning-msg').append(`<li id='gtinWarningData'><b>${gtinWarningData}</b> Variant don't have GTIN</li>`)
+            var numAnim = new CountUp($('#gtinWarningData b')[0], 0, gtinWarningData, null ,duration);
+            numAnim.start();
+          }
+          if(stockWarningData){
+            $('#variant-warning #variant-warning-msg').append(`<li id='stockWarningData'><b>${stockWarningData}</b> Variant don't have stock</li>`)
+            var numAnim = new CountUp($('#stockWarningData b')[0], 0, stockWarningData, null ,duration);
+            numAnim.start();
+          }
+        }
+        console.log('warning res', res);
+      })
+    }
+    getVariantWarning()
+    $colorSelect = $("#color-select").select2({
+      ajax: {
+        url: "/inventory/getColorOption",
+        dataType: 'json',
+        delay: 250,
+        data: function(params) {
+          console.log('getColorOption data', params);
+          return {
+            q: params.term, // search term
+            page: params.page
+          };
+        },
+        processResults: function(data, params) {
+          // parse the results into the format expected by Select2
+          // since we are using custom formatting functions we do not need to
+          // alter the remote JSON data, except to indicate that infinite
+          // scrolling can be used
+          console.log('getColorOption params.page', params.page);
+          params.page = params.page || 1;
+
+          return {
+            results: data.items,
+            pagination: {
+              more: (params.page*30) < data.total_count
+            }
+          };
+        },
+        cache: true
+      },
+
+      escapeMarkup: function(markup) {
+        return markup;
+      }, // let our custom formatter work
+//      minimumInputLength: 1,
+      templateResult: function(data) {
+        var value = data.value;
+        var name = data.name || 'searching...';
+        console.log('getColorOption templateResult data', data, name);
+        return `${name} <span class="color-icon pull-right" style="background: ${value}"></span>`
+      },
+      templateSelection: function(data, container) {
+        var name = data.name || data.text
+        var value = data.value || data.title || null;
+        console.log('getColorOption templateSelection data', data, name);
+
+        var selected = data.selected
+        var justAddedClassName = (selected) ? null : 'just-added'
+
+        return `<span class="${justAddedClassName}">${name}<span class="color-icon" style="background: ${value}"></span></span>`
+      },
+      dropdownAutoWidth: true,
+      width: 'auto',
+    });
+//    $colorSelect.val([{id: 1, text: 'teo', name:'nn'}]).trigger("change");
+    $colorSelect.on('select2:unselecting', function(e) {
+//      console.log('ee', e);
+//      console.log('ee p', e.params.args.data.selected);
+      var data = e.params.args.data;
+      if (e.params.args.data.selected === true) {
+        noty({
+          text: 'Delete already added color is not allowed!',
+          type: 'error'
+        })
+        return false;
+      }
+//      var result = confirm("Want to delete?");
+//      if (result) {
+      //Logic to delete the item
+      return true;
+//      }
+//      return false;
+
+    });
+
+    $sizeSelect = $("#size-select").select2({
+      ajax: {
+        url: "/inventory/getSizeOption",
+        dataType: 'json',
+        delay: 250,
+        data: function(params) {
+          console.log('getSizeOption data', params);
+          return {
+            q: params.term, // search term
+            page: params.page
+          };
+        },
+        processResults: function(data, params) {
+          // parse the results into the format expected by Select2
+          // since we are using custom formatting functions we do not need to
+          // alter the remote JSON data, except to indicate that infinite
+          // scrolling can be used
+          console.log('getSizeOption params.page', params.page);
+          params.page = params.page || 1;
+
+          return {
+            results: data.items,
+            pagination: {
+              more: (params.page*30) < data.total_count
+            }
+          };
+        },
+        cache: true
+      },
+
+      escapeMarkup: function(markup) {
+        return markup;
+      }, // let our custom formatter work
+//      minimumInputLength: 1,
+      templateResult: function(data) {
+        console.log('getSizeOption templateResult data', data);
+        var text = data.value || data.text
+        return text;
+      },
+      templateSelection: function(data, container) {
+        console.log('getSizeOption templateSelection data', data);
+        var text = data.value || data.text
+        var selected = data.selected
+        var justAddedClassName = (selected) ? null : 'just-added'
+        return `<span class="${justAddedClassName}">${text}</span>`;
+      },
+      dropdownAutoWidth: true,
+      width: 'auto',
+    });
+    $sizeSelect.on('select2:unselecting', function(e) {
+      var data = e.params.args.data;
+      if (e.params.args.data.selected === true) {
+        noty({
+          text: 'Delete already added size is not allowed!',
+          type: 'error'
+        })
+        return false;
+      }
+//      var result = confirm("Want to delete?");
+//      if (result) {
+      //Logic to delete the item
+      return true;
+//      }
+//      return false;
+    });
+
+//    $("#brand-select").select2({
+//      ajax: {
+//        url: "https://api.github.com/search/repositories",
+//        dataType: 'json',
+//        delay: 250,
+//        data: function(params) {
+//          return {
+//            q: params.term, // search term
+//            page: params.page
+//          };
+//        },
+//        processResults: function(data, params) {
+//          // parse the results into the format expected by Select2
+//          // since we are using custom formatting functions we do not need to
+//          // alter the remote JSON data, except to indicate that infinite
+//          // scrolling can be used
+//          params.page = params.page || 1;
+//
+//          return {
+//            results: data.items,
+//            pagination: {
+//              more: (params.page*30) < data.total_count
+//            }
+//          };
+//        },
+//        cache: true
+//      },
+//
+//      escapeMarkup: function(markup) {
+//        return markup;
+//      }, // let our custom formatter work
+////      minimumInputLength: 1,
+//      templateResult: function(data) {
+////        console.log('data', data);
+//        return data.name
+//      },
+//      templateSelection: function(data, container) {
+////        console.log('data', data);
+//        var selected = data.selected
+//        var text = data.name || data.text;
+//        var justAddedClassName = (selected) ? null : 'just-added'
+//        return `${justAddedClassName}${text}`;
+//      },
+//      dropdownAutoWidth: true,
+//      width: 'auto',
+//      tags: true
+//    });
+
+    // Two button submit allowed
+    $('.product-submit').click(function(){
+      console.log('product-form submit click');
+      $('#product-form').submit();
+    })
+    $('#product-form').submit(function(e) {
+      e.preventDefault();
+
+      console.log('product-form submit');
+      var submit = $(this).find('[type=submit]');
+      var data = $(this).serializeJson();
+
+      // Image
+      var updateMaterialImage = $('#productBackImage, #productFrontImage').serializeJson();
+
+      data.updateMaterialImage = updateMaterialImage
+
+      var action = $(this).attr('action');
+      block();
+      socket.post(action, data, function(res) {
+
+        let { addedVariants, newColorOrSizeAdded, material } = res;
+
+
+        noty({
+          text: `Update success! ${addedVariants} variant(s) added`,
+          type: 'success'
+        })
+
+        if(res.newColorOrSizeAdded === true){
+          setTimeout(function(){
+            // reload to update the variant table
+            console.log('will reload page');
+            location.reload();
+          }, 500)
+//          $('#product-variant-table').bootstrapTable('refresh');
+//          $.scrollTo(10, '#product-variant-panel');
+        }
+        unblock();
+      });
+      console.log('product-form data', data);
+
+
+    })
+
+// Upload image
+    Dropzone.options.productFrontImage = {
+      paramName: "image",
+      maxFiles: 1,
+      dictDefaultMessage: 'drop your front images here to upload',
+      init: function() {
+        this.on("success", function(file, response) {
+          console.log(response);
+          $('#productFrontImage').css('background','none')
+          $('input[name=frontimg]').val(response.autoWidthlUrl);
+//          $('input[name=frontimg]').val(response.id)
+        });
+      }
+    };
+
+    Dropzone.options.productBackImage = {
+      paramName: "image",
+      maxFiles: 1,
+      dictDefaultMessage: 'drop your back images here to upload',
+      init: function() {
+        this.on("success", function(file, response) {
+          $('#productBackImage').css('background','none')
+          console.log(response);
+          $('input[name=backimg]').val(response.autoWidthlUrl);
+//          $('input[name=backimg]').val(response.id)
+        });
+      }
+    };
+
+  })
+</script>
+
+<style>
+  .color-icon {
+    min-width: 11px;
+    min-height: 11px;
+    display: inline-block;
+    margin-left: 5px;
+    border-radius: 3px;
+  }
+
+  .just-added {
+    border-bottom: 1px dashed red;
+  }
+
+</style>

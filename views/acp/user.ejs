@@ -1,0 +1,62 @@
+
+<div class="container" id="admin-page">
+  <aside class="sidenav">
+    <%- partial ('menu-side.ejs') %>
+  </aside>
+
+  <div class="main-content">
+    <div class="head-content">
+      <a class="menu-button" href="#">
+        <div class="menu-arrow aright text-center">
+          <i class="fa fa-chevron-right pull-left"></i>
+        </div>
+      </a>
+      <a class="menu-button" href="#">
+        <div class="sr-only menu-arrow aleft text-center">
+          <i class="fa fa-chevron-left pull-left"></i>
+        </div>
+      </a>
+      <div class="menu-title">
+        <h4><span class="name-param">Users</span></h4>
+      </div>
+    </div>
+
+    <div class="detail-content" id="user-page">
+      <ul class="breadcrumb">
+        <li><a href="/acp"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active">Users</li>
+      </ul>
+      <div id="seller-page-notice"></div>
+      <table class="table table-hover" id="user-table">
+        <div id="status-filter">
+          <ul class="nav nav-pills">
+            <li><a href="#" data-status="">All (<%= userTotal %>)</a></li>
+            <% _.each(userStatusIndex, function(status) { %>
+            <li><a href="#" data-status="<%= status %>"><%= status %> (<%= _.get(userStatus[status],'count',0) %>)</a></li>
+            <% }) %>
+          </ul>
+        </div>
+        <thead>
+        <tr>
+          <!--<th></th>-->
+          <th>ID</th>
+          <th>Registered Date</th>
+          <th>Full Name</th>
+          <th>Status</th>
+          <th>Last Login</th>
+          <th>Payment Method</th>
+          <th>Total Order</th>
+          <th>Total Amount</th>
+          <th>View</th>
+        </tr>
+        </thead>
+
+      </table>
+    </div>
+
+
+
+
+
+  </div>
+</div>

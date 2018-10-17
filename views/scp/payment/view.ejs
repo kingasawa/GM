@@ -1,0 +1,121 @@
+
+<div class="container" id="seller-page">
+  <aside class="sidenav">
+    <%- partial ('../menu-side.ejs') %>
+  </aside>
+
+  <div class="main-content">
+    <div class="head-content">
+      <a class="menu-button" href="#">
+        <div class="menu-arrow aright text-center">
+          <i class="fa fa-chevron-right pull-left"></i>
+        </div>
+      </a>
+      <a class="menu-button" href="#">
+        <div class="sr-only menu-arrow aleft text-center">
+          <i class="fa fa-chevron-left pull-left"></i>
+        </div>
+      </a>
+      <div class="menu-title">
+        <h4><span class="name-param">Pay to print</span></h4>
+      </div>
+    </div>
+
+    <div class="detail-content" id="payment-view-page">
+      <ul class="breadcrumb">
+        <li><a href="/scp"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="/scp/order">Order</a></li>
+        <li class="active">Details</li>
+      </ul>
+
+      <div class="fix-section">
+        <div class="col-sm-8">
+          <div class="panel panel-default">
+            <div class="panel-body panel-title">Payment details</div><hr>
+            <div class="panel-body">
+              <% _.each(foundPayment.detail.items,function(item){ %>
+              <div class="media orderItem">
+                <div class="media-left">
+                  <img class="media-object variant-image not-fetched" style="width:100px" src="<%= item.image %>">
+                </div>
+                <div class="media-body">
+                  <h4 class="media-heading"><%= item.name %></h4>
+                  <span class="item-mockup"><%= item.mockup %></span>
+                  <span class="sr-only item-design"><%= item.design.designID %></span>
+                  <span class="item-color">Color: <%= item.color %></span>
+                  <span class="item-size">Size: <%= item.size %></span>
+                  <span class="item-basecost">Base cost: $<%= item.basecost %></span>
+                </div>
+              </div><hr>
+              <% }) %>
+              <div class="payment-calculator pull-right">
+                <p class="subtotal">Subtotal : $<span></span></p>
+                <p class="payment-shipping">Shipping fee : $<span>4</span></p>
+                <p class="payment-total">Total : $<span></span></p>
+              </div>
+            </div>
+            <div class="panel-footer">
+              <div class="btn-group btn-group-lg">
+                <% if (foundPayment.status == 'paid to Gearment') { %>
+                <button type="button" class="pay-to-gearment btn btn-primary" disabled>Paid</button>
+                <% } else { %>
+                <button type="button" class="pay-to-gearment btn btn-primary">Pay now</button>
+                <% } %>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-4">
+          <div class="panel panel-default">
+
+
+            <div class="panel-body">
+              <address>
+                <h4>Shipping Address</h4>
+                <p><%= foundPayment.detail.shippingTo %></p>
+              </address>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Error-->
+<div class="modal fade modal-error" id="payErrorModal" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><i class="fa fa-exclamation-triangle"></i> Error</h4>
+      </div>
+      <div class="modal-body">
+        <p class="error-content"></p>
+      </div>
+      <div class="modal-footer">
+        <a href="/scp/balance" type="button" class="btn btn-warning">Add money</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Success-->
+<div class="modal fade modal-success" id="paySuccessModal" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><i class="fa fa-check-circle"></i> Successfully</h4>
+      </div>
+      <div class="modal-body">
+        <p class="success-content"></p>
+      </div>
+      <div class="modal-footer">
+        <a href="/scp/order" type="button" class="btn btn-success">Pay other</a>
+      </div>
+    </div>
+  </div>
+</div>

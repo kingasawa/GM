@@ -1,0 +1,135 @@
+<div id="chooseProductModal" class="modal in fade" role="dialog" aria-hidden="false">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Select products</h4>
+
+        <!--Show all colors: <input type="checkbox" name="show-all-colors" data-toggle="toggle">-->
+        <p style="margin-top:10px;"><i class="fa fa-info-circle "></i> Hover your mouse over styles to choose colors</p>
+        <p><a href="#" data-toggle="modal" data-target="#loadSettingModal" class="text-warning"><i
+              class="fa fa-cloud-download"></i> Load your saved settings</a>
+
+        </p>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-xs-12 col-sm-8 list-mockup">
+            <% _.each(materialData, function(material, materialIndex) { %>
+            <div class="col-sm-6 col-md-4 text-center product-sample">
+              <div class="mockup-sample-section" id="mockup-id-<%= material.id %>">
+                <span class="define-mockup-id sr-only"><%= material.id %></span>
+                <span class="define-frame-type sr-only"><%= material.backconfig[0].scale %></span>
+                <span class="define-top sr-only"><%= material.config[0].top %></span>
+                <span class="define-left sr-only"><%= material.config[0].left %></span>
+                <span class="define-back-top sr-only"><%= material.backconfig[0].top %></span>
+                <span class="define-back-left sr-only"><%= material.backconfig[0].left %></span>
+                <span class="sr-only define-width"><%= material.config[0].width %></span>
+                <span class="sr-only define-height"><%= material.config[0].height %></span>
+                <div class="sr-only define-mockup-description"><%= material.description %></div>
+                <h5><%= material.name %></h5>
+                <img class="material-front-img" src="<%= material.image[0].image.frontimg %>">
+                <img class="sr-only material-back-img" src="<%= material.image[0].image.backimg %>">
+                <span>From $<%= material.cost[0].cost %> per unit</span>
+                <span class="sr-only define-minPay"><%= material.cost[0].minPay %></span>
+                <p><%= material.size[0].size[0].size %>
+                  - <%= material.size[0].size[material.size[0].size.length - 1].size %></p>
+                <span class="sr-only size-range"><% _.each(material.size[0].size,function(eachsize) { %><%= eachsize.size %>-<%  }) %></span>
+                <div class="select-color">
+                  <p>Select colors</p>
+                  <ul class="style-color-selector">
+                    <% for(var i = 0;i < material.color[0].color.length; i++) { %>
+                    <li class="js-preview-color" id="color-id-<%= material.id %><%= i %>" data-toggle="tooltip" title="<%= material.color[0].color[i].name %>">
+                      <span class="define-color-id sr-only"><%= material.id %><%= i %></span>
+                      <span class="define-color-name sr-only"><%= material.color[0].color[i].name %></span>
+                      <!-- Auto check 1 color when create new -->
+                      <a href="#"><span class="<%=(!getSave && materialIndex === 0 && i === 0) ? 'is-selected' : 'select-color-mockup add-check' %>"
+                                        style="background-color:<%= material.color[0].color[i].value %>"></span></a>
+                    </li>
+                    <% } %>
+
+                  </ul>
+
+                </div>
+
+              </div>
+            </div>
+            <% }) %>
+          </div>
+
+          <div class="hidden-xs col-sm-4 choose-product-variant">
+            <div class="choose-variant-title">
+              <h4>Selected products</h4>
+              <p style="width:100%;float:left">Click color to remove <span class="pull-right total-variants-count">Total variants: <strong style="color:#5cb85c">8</strong>/100</span></p>
+            </div>
+
+            <div class="choose-variant-detail">
+              <!-- Left-aligned -->
+              <%if(_.get(getSave, 'savingItems')){%>
+              <% _.each(getSave.savingItems, function(item) {  %>
+              <div class="media choose-product-mockup selected-mockup-id-<%= item.itemID %>">
+                <span class="define-mockup-id sr-only"><%= item.itemID %></span>
+                <div class="media-left">
+                  <img src="<%= item.itemFrontImg %>" class="media-object" style="width:90px">
+                </div>
+                <div class="media-body">
+                  <button style="color:#a94442;opacity:0.6" data-toggle="tooltip" title="Remove this style" type="button" class="close remove-one-style">&times;</button>
+                  <h5 class="media-heading">
+                    <%= item.itemName %>
+                  </h5>
+                  <p class="selected-variants-count">Variants: <strong style="color:#5cb85c"></strong></p>
+                  <ul class="style-color-selector">
+                    <% _.each(item.itemColor,function(color){ %>
+                    <li class="js-preview-color" id="color-id-<%= color.id %>">
+                      <span class="define-color-id sr-only"><%= color.id %></span>
+                      <a href="#">
+                            <span class="select-color-mockup"
+                                  style="background-color:<%= color.value %>"></span>
+                      </a>
+                    </li>
+                    <% }) %>
+                  </ul>
+                </div>
+              </div>
+              <% }) %>
+              <%}else{%>
+              <div class="media choose-product-mockup selected-mockup-id-<%= materialData[0].id %>">
+                <span class="define-mockup-id sr-only"><%= materialData[0].id %></span>
+                <div class="media-left">
+                  <img src="<%= materialData[0].image[0].image.frontimg %>" class="media-object" style="width:90px">
+                </div>
+                <div class="media-body">
+                  <button style="color:#a94442;opacity:0.6" data-toggle="tooltip" title="Remove this style" type="button" class="close remove-one-style">&times;</button>
+                  <h5 class="media-heading">
+                    <%= materialData[0].name %>
+                  </h5>
+                  <p class="selected-variants-count">Variants: <strong style="color:#5cb85c"></strong></p>
+                  <ul class="style-color-selector">
+                    <li class="js-preview-color" id="color-id-<%= materialData[0].id %>0">
+                      <span class="define-color-id sr-only"><%= materialData[0].id %>0</span>
+                      <a href="#">
+                        <span class="select-color-mockup"
+                              style="background-color:<%= materialData[0].color[0].color[0].value %>"></span>
+                      </a>
+                    </li>
+                  </ul>
+
+                </div>
+              </div>
+              <%}%>
+            </div>
+
+            <button style="margin-top: 10px" type="button"
+                    class="btn btn-block btn-success btn-lg"
+                    data-dismiss="modal">Done</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

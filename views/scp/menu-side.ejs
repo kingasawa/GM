@@ -1,0 +1,22 @@
+<ul class="list-group">
+  <li class="main-group-item list-group-item">
+    <img style="max-width:160px;" src="/images/lg.png">
+    <a class="menu-button" href="#"><i class="pull-right aleft fa fa-close sr-only"></i></a>
+  </li>
+  <a href="/scp"><li class="list-group-item"><i class="fa fa-area-chart"></i>Dashboard</li></a>
+  <a href="/product/design"><li class="list-group-item"><i class="fa fa-reorder"></i>Add Products</li></a>
+  <a href="/scp/order"><li class="list-group-item"><i class="fa fa-list-alt"></i>Orders</li></a>
+  <a href="/scp/transactions"><li class="list-group-item"><i class="fa fa-list-alt"></i>Transactions</li></a>
+  <a href="/product/savedSettings"><li class="list-group-item"><i class="fa fa-upload"></i>Saved settings</li></a>
+  <!--<bootstrap-colorpicker href="/scp/product"><li class="list-group-item"><i class="fa fa-dashboard"></i>My campaigns</li></bootstrap-colorpicker>-->
+  <a href="/scp/store"><li class="list-group-item"><i class="fa fa-shopping-bag"></i>Stores</li></a>
+  <!--<a href="/scp/get_design"><li class="list-group-item"><i class="fa fa-file-image-o"></i>Design</li></a>-->
+
+  <!--<a href="/scp/billing"><li class="list-group-item"><i class="fa fa-credit-card"></i>Billing</li></a>-->
+  <!--<a href="/scp/old_billing"><li class="list-group-item"><i class="fa fa-money"></i>Billing</li></a>-->
+  <a href="/scp/profile"><li class="list-group-item"><i class="fa fa-gears"></i>Account Settings</li></a>
+  <a href="/logout"><li data-toggle="tooltip" title="<%= req.session.user.email %>" data-placement="bottom" class="list-group-item">
+      <i class="fa fa-power-off"></i><%= req.session.user.username %> (Sign out)</li></a>
+</ul>
+
+

@@ -1,0 +1,39 @@
+<ul class="list-group">
+  <li class="main-group-item list-group-item">
+    <img style="max-width:160px" src="/images/lg.png">
+    <a class="menu-button" href="#"><i class="pull-right aleft fa fa-close sr-only"></i></a>
+  </li>
+  <a href="/acp"><li class="list-group-item" name="Dashboard"><i class="fa fa-dashboard"></i>Dashboard</li></a>
+
+  <a href="/inventory"><li class="list-group-item" name=""><i class="fa fa-cubes"></i>Inventory</li></a>
+  <a class="mockup-option" href="#" data-toggle="collapse" data-target="#list-child"><li class="list-group-item" name="">
+      <i class="fa fa-tag"></i>Products<i class="pull-right fa fa-chevron-right"></i></li></a>
+  <ul class="collapse list-group" id="list-child">
+    <a href="/acp/mockup?p=sample"><li class="list-group-item"><i class="fa fa-angle-double-right "></i>Product samples</li></a>
+    <a href="/acp/mockup?p=option"><li class="list-group-item"><i class="fa fa-angle-double-right "></i>Product options</li></a>
+  </ul>
+
+  <a href="/acp/design"><li class="list-group-item" name=""><i class="fa fa-image"></i>Designs</li></a>
+  <a href="/acp/order"><li class="list-group-item" name=""><i class="fa fa-file-text-o"></i>Orders</li></a>
+  <a href="/acp/transactions"><li class="list-group-item" name=""><i class="fa fa-file-text-o"></i>Transactions</li></a>
+  <!--<a href="/tracking/order"><li class="list-group-item" name=""><i class="fa fa-list-alt"></i>Tracking Demo</li></a>-->
+  <a href="/acp/user"><li class="list-group-item" name=""><i class="fa fa-users"></i>Users</li></a>
+  <a href="/acp/manager"><li class="list-group-item" name=""><i class="fa fa-user-plus"></i>Managers</li></a>
+  <!--<a href="/acp/report"><li class="list-group-item" name=""><i class="fa fa-files-o"></i>Report</li></a>-->
+
+  <!--<a class="dhl-option" href="#" data-toggle="collapse" data-target="#list-child-dhl"><li class="list-group-item" name="">-->
+      <!--<i class="fa fa-tag"></i>DHL Management<i class="pull-right fa fa-chevron-right"></i></li></a>-->
+  <!--<ul class="collapse list-group" id="list-child-dhl">-->
+    <!--<a href="/order/dhl_shipment"><li class="list-group-item"><i class="fa fa-angle-double-right "></i>Shipments</li></a>-->
+    <!--<a href="/order/scan_form"><li class="list-group-item"><i class="fa fa-angle-double-right "></i>Scanform</li></a>-->
+    <!--<a href="/order/manifest"><li class="list-group-item"><i class="fa fa-angle-double-right "></i>Manifest</li></a>-->
+  <!--</ul>-->
+
+  <a href="/acp/system"><li class="list-group-item" name=""><i class="fa fa-gears"></i>System</li></a>
+  <!--<a href="/admin/promote#"><li class="list-group-item"><i class="fa fa-certificate"></i> Promotion</li></a>-->
+  <a href="/logout"><li data-toggle="tooltip" title="<%= req.session.user.email %>" data-placement="bottom" class="list-group-item">
+      <i class="fa fa-power-off"></i><%= req.session.user.username %> (Sign out)</li></a>
+</ul>
+
+
+

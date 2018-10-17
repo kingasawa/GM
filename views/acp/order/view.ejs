@@ -1,0 +1,445 @@
+<div class="se-pre-con"></div>
+<div class="container" id="admin-page">
+  <aside class="sidenav">
+    <%- partial ('../menu-side.ejs') %>
+  </aside>
+
+  <div class="main-content">
+    <div class="head-content">
+      <a class="menu-button" href="#">
+        <div class="menu-arrow aright text-center">
+          <i class="fa fa-chevron-right pull-left"></i>
+        </div>
+      </a>
+      <a class="menu-button" href="#">
+        <div class="sr-only menu-arrow aleft text-center">
+          <i class="fa fa-chevron-left pull-left"></i>
+        </div>
+      </a>
+      <div class="menu-title">
+        <h4><span class="name-param">Orders</span></h4>
+      </div>
+    </div>
+
+    <div class="detail-content order-<%= foundOrder.orderid %>" id="order-view-page">
+      <ul class="breadcrumb">
+        <li><a href="/acp"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="/acp/order">Orders</a></li>
+        <li class="active">Order #<%= foundOrder.id %></li>
+      </ul>
+
+      <% if(foundOrder.label !== 'no-label' || foundOrder.label == '') { %>
+      <div style="margin:0" class="alert alert-info buy-label-success">
+        <a id="printLabel" href="#" data-link="<%= foundOrder.label %>"><i class="fa fa-print"></i> View & Print label</a></div>
+      <!--<a id="printLabel" href=""><i class="fa fa-print"></i> View & Print label</a></div>-->
+      </div>
+      <% } %>
+
+    <div class="autobuy-background alert alert-info hidden">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <strong>Notice!</strong> Auto buy is running in background. you can fulfill the other orders
+    </div>
+
+
+      <div class="fix-section" id="order-detail-section">
+
+        <div class="col-sm-8">
+          <div class="panel panel-default">
+            <div class="panel-body panel-title">Order details
+              <span class="order-date pull-right"><%= sails.moment(foundOrder.createdAt).tz('America/Anchorage').format() %></span>
+              <br>
+              <div style="margin-top:10px" class="btn-group pull-right">
+                <% if (foundOrder.tracking !== 'Back-Order') { %>
+                <button type="button" class="mark_status btn btn-default" data-status="Back-Order">Mark as Back-Order</button>
+                <% } %>
+                <% if (foundOrder.tracking !== 'In-Production') { %>
+                  <button type="button" class="mark_status btn btn-success" data-status="In-Production">Mark as In-Production</button>
+                <% } %>
+              </div>
+              <span class="order-shop-name"><%= foundOrder.shop %></span><br>
+              <a href="#" data-toggle="tooltip" data-placement="right" title="<%= _.get(foundOrder, 'owner.email','') %>" class="order-owner-username"><%= _.get(foundOrder, 'owner.username','') %></a>
+              <span class="sr-only order-id"><%= foundOrder.orderid %></span>
+              <span class="sr-only order-internal-id"><%= foundOrder.id %></span>
+            </div><hr>
+            <div class="panel-body list-order-item">
+              <% _.each(foundOrder.line_items,function(item){ %>
+              <div class="media orderItem <% if (item.fulfillment_status !== 'fulfilled') { %>trackingItem <% } %>">
+                <div style="position:relative" class="media-left">
+                  <a class="zoom-in" style="cursor:zoom-in" data-toggle="modal" data-target="#zoomImageModal" href="#">
+
+                    <img class="media-object variant-image not-fetched"
+                       style="width:180px"
+                       data-variant_id="<%= item.variant_id %>"
+                       src="<%= _.get(item,'variant_img', '') %>"></a>
+                  <!--<div class="zoom-image text-center"><a data-toggle="modal" data-target="#zoomImageModal" href="#"><i class="fa fa-search"></i> Zoom</a></div>-->
+
+                </div>
+                <div class="media-body">
+                  <h4 class="media-heading"><%= item.title %></h4>
+                  <span class="sr-only itemID"><%= item.id %></span>
+                  <span class="sr-only itemSku"><%= item.sku %></span>
+                  <span>Product: <%= _.get(item, 'brand', '') %></span> /
+                  <span><%= _.get(item, 'variant_title', '').split(' / ')[1] %></span> /
+                  <span><%= _.get(item, 'variant_title', '').split(' / ')[2] %></span><br>
+                  <span>Base cost: $<%= item.basecost %></span><br>
+                  <span>DesignID: <%= _.get(item, 'sku', '').split('-')[1] %></span><br>
+                  <span class="item-side">Side:
+                    <% if (item.sku.match(/([0-9])$/)) { %>
+                    <% if(item.sku.match(/([0-9])$/)[0] == 1){%> Front
+                    <% } else if (item.sku.match(/([0-9])$/)[0] == 0) { %> Back
+                    <% } else { %> Undefined <% } %>
+                    <% } else { %> Undefined <% } %>
+                  </span>
+                  <span class="sr-only item-weight item-<%= item.sku %>"><%= _.get(item,'shippingWeight',null) %></span>
+
+
+                  <p><a href="http://<%= _.get(item, 'design', '') %>" target="_blank">View & download design</a></p>
+                </div>
+                <div class="media-right text-right">
+                  $<span class="item-price"></span>
+                </div>
+
+                <div class="media-right text-right media-price-section">
+                  $<span class="item-basecost"><%= item.basecost %></span> x <span class="item-quantity"><%= item.quantity %></span>
+                </div>
+                <!--<div class="media-body text-center">-->
+                  <!--<span>$<%= item.basecost %> x <%= item.quantity %></span>-->
+                <!--</div>-->
+              </div><hr>
+              <% }) %>
+              <div class="media">
+                <div class="total-paid media-right text-right">
+                  $<span class="subtotal"></span><br>
+                  $<span class="shippingfee"><%= parseFloat(foundOrder.shipping_fee).toFixed(2) %></span><br>
+                  $<span class="total"></span><br>
+                </div>
+
+                <div class="media-left"></div>
+                <div class="media-body"></div>
+                <div class="media-right text-right total-title">
+                  <span>Subtotal:</span><br>
+                  <span>Shipping cost:</span><br>
+                  <span>Total:</span><br>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+          <% if (foundOrder.tracking == 'Cancelled') { %>
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <h5><i style="font-size:16px;color:#5cb85c" class="fa fa-check"></i> ORDER WAS REFUNDED</h5>
+            </div>
+          </div>
+          <% } else if (foundOrder.tracking == 'pending') {%>
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <h5><i style="font-size:16px;color:#5cb85c" class="fa fa-check"></i> ORDER WAS NOT PAID TO GEARMENT</h5>
+            </div>
+          </div>
+          <% } else { %>
+
+          <% if (foundFulfill.length > 0) { _.each(foundFulfill, function(fulfill) { %>
+          <div class="panel panel-default">
+            <div class="panel-body panel-title">Fulfillments Order: #<%= foundOrder.id %></div><hr>
+            <div class="panel-body">
+              <div class="fulfillment-detail">
+                <span class="sr-only fulfillmentId"><%= fulfill.id %></span>
+                <div class="fulfillment-row">
+                  <div class="fulfillment-column col-sm-4">
+                    <p style="color:#929292">Carrier</p>
+                    <p><%= fulfill.tracking_company %></p>
+                  </div>
+                  <div class="fulfillment-column col-sm-4">
+                    <p style="color:#929292">Service</p>
+                    <p><%= _.get(fulfill,'service_rate','') %></p>
+                  </div>
+                  <div class="fulfillment-column col-sm-4">
+                    <p style="color:#929292">Tracking Number</p>
+                    <p><a href="<%= fulfill.tracking_url %>" target="_blank"><%= fulfill.tracking_number %></a></p>
+                  </div>
+                </div>
+                <div class="fulfillment-row">
+
+                  <div class="fulfillment-column col-sm-12">
+                    <p style="color:#929292">Items</p>
+                    <% _.each(fulfill.line_items,function(item){ %>
+                    <p><%= item.quantity %> x <%= item.name %></p>
+                    <% }) %>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <% }) }  %>
+
+          <div class="buy-label-notice hidden alert alert-warning"></div>
+
+          <div id="label-shipping-section" class="panel panel-default <% if(foundFulfill.length > 0){ %>sr-only<% } %>">
+            <div class="panel-body panel-title">Mark as fulfilled</div>
+            <div class="panel-body">
+              <h6>FULFILLMENT METHOD</h6>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <div class="radio"><label>
+                      <input type="radio" name="fulfillment-method" value="shipping-label" disabled>
+                      Buy and print a shipping label</label></div>
+                </div>
+                <div class="panel-body">
+                  <div class="radio"><label><input type="radio" name="fulfillment-method" value="fulfilled" checked>Mark as fulfilled</label></div>
+                </div>
+              </div>
+            </div><hr>
+            <div class="section-tracking-enter panel-body">
+              <h6>TRACKING INFORMATION (OPTIONAL)</h6>
+              <div class="row">
+                <form>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="tracking-number">Tracking Number</label>
+                      <input type="text" class="form-control" id="tracking-number" name="tracking-number">
+                    </div>
+                  </div>
+
+
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="tracking-company">Tracking Company</label>
+                      <select style="width:100%;border:1px solid #ccc;height:34px;" name="tracking-company">
+                        <option value="USPS">USPS</option>
+                        <option value="FedEx">FedEx</option>
+                        <option value="DHL">DHL</option>
+                      </select>
+                    </div>
+                  </div>
+
+                </form>
+              </div>
+            </div>
+            <div style="display:none" class="section-buy-label panel-body order-<%= foundOrder.orderid %>">
+              <h6>CREATE A SHIPPING LABEL</h6><a data-toggle="modal" data-target="#editPackageModal" class="edit-box" style="color:#4e4e4e;text-decoration:none;">
+              <div class="media" style="border:1px solid #ccc;padding: 5px;">
+                <div class="media-left" style="padding-top:5px">
+                  <img src="../images/package.png" class="media-object" style="width:60px">
+                </div>
+                <div class="media-body" style="padding-top:5px">
+                  <h4 class="media-heading">Shipment parcel</h4>
+                  <p><span class="package-length">10</span> x
+                    <span class="package-width">10</span> x
+                    <span class="package-height">5</span> inches,
+                    <span class="package-weight">0.188</span> <span class="package-weight-type">oz</span></p>
+                </div>
+                <div class="media-right" style="padding:15px;font-size:20px;color:#b5c4d7">
+                    <span class="fa fa-chevron-down"></span>
+                </div>
+              </div>
+              </a><hr>
+              <div class="shipment-service">
+                <span class="get-shipment-id sr-only"></span>
+                <h6>SHIPMENT SERVICE</h6>
+                <div class="panel panel-default shipment-rates">
+
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+
+
+          <% } %>
+
+        </div>
+
+        <div class="col-sm-4">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <address class="customer-info">
+                <h4><%= foundOrder.name %>
+                  <a href="#" style="font-size:14px" data-toggle="modal" data-target="#editEmailModal" class="pull-right">Edit</a>
+                </h4>
+
+                <p><i class="fa fa-envelope"></i> <%= _.get(foundOrder, '.email','') %></p>
+                <p><i class="fa fa-phone"></i> <%= _.get(foundOrder,'.customer.phone','') %></p>
+              </address>
+            </div><hr>
+            <div class="panel-body">
+              <address class="to-address">
+                <h4>Shipping Address
+                  <a href="#" style="font-size:14px" data-toggle="modal" data-target="#editAddressModal" class="pull-right">Edit</a>
+                </h4>
+                <strong data-toggle="tooltip" title="<%= _.get(foundOrder.customer,'orders_count') %> orders"><span class="shipping-name"><%= foundOrder.shipping_address.name %></span></strong><br>
+                <span class="shipping-address"><%= foundOrder.shipping_address.address1 %><br></span>
+                <% if(foundOrder.shipping_address.address2 != 'null') { %>
+                <span class="shipping-address2"><%= foundOrder.shipping_address.address2 %><br></span>
+                <% } %>
+                <span class="shipping-city"><%= foundOrder.shipping_address.city %></span>, <span class="shipping-state"><%= foundOrder.shipping_address.province_code %></span> <span class="shipping-zip"><%= foundOrder.shipping_address.zip %></span><br>
+                <span class="shipping-country"><%= foundOrder.shipping_address.country %></span><span class="shipping-country_code sr-only"><%= foundOrder.shipping_address.country_code %></span><br>
+                <span class="shipping-phone"><%= foundOrder.shipping_address.phone %></span><br>
+                <p class="check-address-title"><a class="check-address" type="button" href="#">Check address</a></p>
+              </address>
+            </div>
+            <hr>
+            <% if (foundOrder.tracking !== 'pending') { %>
+            <% if (foundFulfill.length > 0) { %>
+            <div class="panel-body">
+              <button data-toggle="modal" data-target="#editTrackingModal" type="button" class="btn-block btn btn-success text-center">Edit tracking</button>
+              <% if(foundFulfill[0].shipment_id !== 'null') { %>
+              <hr><button type="button" class="void-label-button btn-block btn btn-danger text-center">Void label <span class="sr-only shipmentId"><%= foundFulfill[0].shipment_id %></span></button>
+
+              <button type="button" class="edit-shipment-button btn-block btn btn-warning text-center">Edit shipment <span class="sr-only shipmentId"><%= foundFulfill[0].shipment_id %></span></button>
+              <hr><div class="sr-only summary-label">
+                <p><span class="service-rate-name"></span><span class="pull-right service-rate-price"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></p>
+                <button type="button" class="buy-new-label btn-block btn btn-success text-center">Buy new label</button>
+              </div>
+              <% } %>
+            </div>
+            <% } else { %>
+            <div class="panel-body">
+              <h4>Summary</h4>
+              <div class="summary-fulfill">
+                <h6 style="margin-bottom:20px">MARK AS FULFILLED</h6>
+                <button type="button" class="fulfill-items btn-block btn btn-primary text-center">Fulfill items</button>
+              </div>
+              <div class="sr-only summary-label">
+                <p><span class="service-rate-name"></span><span class="pull-right service-rate-price"><i class="fa fa-spinner fa-pulse fa-fw"></i></span></p>
+                <button type="button" class="buy-label-shipping btn-block btn btn-success text-center">Buy label</button>
+              </div>
+            </div>
+
+            <div class="panel-body">
+              <div class="summary-fulfill">
+                <button type="button" class="auto-fulfill btn-block btn btn-success text-center">Auto buy label & fulfill</button>
+              </div>
+            </div>
+            <% } } %>
+
+
+          </div>
+          <div class="panel panel-warning">
+            <div class="panel-heading"><i class="fa fa-file-text-o"></i> Internal Note</div>
+            <div id="internal-notes" class="panel-body"><%= foundOrder.internal_notes %></div>
+          </div>
+          <div class="panel panel-info">
+            <div class="panel-heading"><i class="fa fa-tag"></i> Tags</div>
+            <div id="tag" class="panel-body"><%= foundOrder.tag %></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Edit Package -->
+<div class="modal fade" id="editPackageModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit package (size & weight)</h4>
+      </div>
+      <div class="modal-body" style="height:100px">
+          <div class="col-sm-8">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="box-length">Length(inches)</label>
+                <input type="text" class="form-control" class="change-box-value" id="box-length" name="box-length" value="10">
+              </div>
+            </div>
+
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="box-length">Width(inches)</label>
+                <input type="text" class="form-control" class="change-box-value" id="box-width" name="box-width" value="10">
+              </div>
+            </div>
+
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="box-length">Height(inches)</label>
+                <input type="text" class="form-control" class="change-box-value" id="box-height" name="box-height" value="5">
+              </div>
+            </div>
+          </div>
+        <div class="col-sm-4">
+          <div>
+            <div class="form-group">
+              <label style="width:100%" for="box-length">Weight</label>
+              <input style="width:50%;float:left;margin-right:5px" type="text" class="form-control" class="change-box-value" id="box-weight" name="box-weight" value="0.188">
+              <select style="width:45%;margin-left:5px" class="form-control choose-weight-type" name="weight-type">
+                <option value="oz">oz</option>
+                <option value="lb">lb</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="change-box-value btn btn-primary">Change</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<% if (foundFulfill.length > 0) { %>
+<!-- Modal -->
+<div id="editTrackingModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit tracking</h4>
+      </div>
+      <div class="modal-body">
+        <form id="edit-tracking">
+          <div class="form-group">
+            <label for="tracking-number">Tracking number</label>
+            <input type="text" class="form-control" id="tracking-number" name="tracking-number" value="<%= foundFulfill[0].tracking_number %>">
+          </div>
+          <div class="form-group">
+            <label for="tracking-company">Carrier</label>
+            <select style="width:100%;border:1px solid #ccc;height:34px;" name="tracking-company">
+              <option value="USPS">USPS</option>
+              <option value="FedEx">FedEx</option>
+              <option value="DHL">DHL</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="edit-tracking-button btn btn-primary" data-dismiss="modal">Edit</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<% } %>
+
+<div class="modal fade" id="zoomImageModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <img style="width:100%" src="">
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- partial ('modal/edit_address_modal.ejs') %>
+<%- partial ('modal/edit_email_modal.ejs') %>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+  $(function(){
+    $('#printLabel').click(function(){
+      var printLabel = $(this);
+      printJS(printLabel.data('link'), 'image')
+    })
+  })
+</script>

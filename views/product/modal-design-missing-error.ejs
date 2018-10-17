@@ -1,0 +1,26 @@
+<div class="modal fade modal-error" id="designMissingModal" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><i class="fa fa-exclamation-triangle"></i> Error</h4>
+      </div>
+      <div class="modal-body">
+        <p class="error-content"></p>
+        <div onClick="$('#chooseDesignModal').modal('show')">
+          <img style="width: 100%;max-width: 400px"
+               data-dismiss="modal"
+               src="/images/start-design-tshirt.png">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button onClick="$('#chooseDesignModal').modal('show')"
+                type="button"
+                class="btn btn-success btn-block"
+                data-dismiss="modal">
+          <i class="fa fa-plus"></i>  Add design
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

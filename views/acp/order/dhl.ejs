@@ -1,0 +1,76 @@
+<div class="se-pre-con"></div>
+<div class="container" id="admin-page">
+  <aside class="sidenav">
+    <%- partial ('../menu-side.ejs') %>
+  </aside>
+
+  <div class="main-content">
+    <div class="head-content">
+      <a class="menu-button" href="#">
+        <div class="menu-arrow aright text-center">
+          <i class="fa fa-chevron-right pull-left"></i>
+        </div>
+      </a>
+      <a class="menu-button" href="#">
+        <div class="sr-only menu-arrow aleft text-center">
+          <i class="fa fa-chevron-left pull-left"></i>
+        </div>
+      </a>
+      <div class="menu-title">
+        <h4><span class="name-param">DHL SHIPMENTS</span></h4>
+      </div>
+    </div>
+
+    <div class="detail-content" id="order-page">
+      <ul class="breadcrumb">
+        <li><a href="/acp"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active">DHL Shipments</li>
+      </ul>
+
+
+
+      <% if(result.length > 0) {%>
+      <button style="margin-bottom:15px" class="GenerateManifest btn btn-success"><i class="fa"></i> Generate Manifest</button>
+      <p class="error_count">Error Count: <strong></strong></p>
+      <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="70"
+             aria-valuemin="0" aria-valuemax="100" style="width:0%">
+          0%
+        </div>
+      </div>
+      <% } else { %>
+        <div class="alert alert-warning">
+          Shipments <strong>Not Found!</strong> Go to <a href="/order/scan_form">scanform to Manifesting</a>
+        </div>
+      <% } %>
+
+      <table style="background:#fff" class="display table-responsive table table-hover" id="acp-dhl-table">
+        <thead>
+        <tr>
+          <th>Production ID</th>
+          <th>Service Rate</th>
+          <th>Shipment ID</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% _.each(result, function(order){ %>
+        <tr>
+          <td><%= order.id %></td>
+          <td class="dhl-service"><%= order.service_rate %></td>
+          <td><%= order.shipment_id %></td>
+        </tr>
+        <% }) %>
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(function() {
+
+  });
+
+</script>

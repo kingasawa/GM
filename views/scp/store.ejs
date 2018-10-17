@@ -1,0 +1,109 @@
+
+<div class="container" id="seller-page">
+  <aside class="sidenav">
+    <%- partial ('menu-side.ejs') %>
+  </aside>
+
+  <div class="main-content">
+    <div class="head-content">
+      <a class="menu-button" href="#">
+        <div class="menu-arrow aright text-center">
+          <i class="fa fa-chevron-right pull-left"></i>
+        </div>
+      </a>
+      <a class="menu-button" href="#">
+        <div class="sr-only menu-arrow aleft text-center">
+          <i class="fa fa-chevron-left pull-left"></i>
+        </div>
+      </a>
+      <div class="menu-title">
+        <h4><span class="name-param">Stores</span></h4>
+      </div>
+    </div>
+
+    <div class="detail-content" id="store-page">
+      <ul class="breadcrumb">
+        <li><a href="/scp"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active">Stores</li>
+      </ul>
+      <div class="row connect-store">
+        <div class="col-xs-6">
+          <div class="panel panel-default">
+            <div class="panel-body text-center"><span>Create a new custom store</span>
+              <img style="margin-bottom: 20px;" src="https://www.printful.com/static/images/layout/store.png">
+
+            </div>
+            <div class="panel-footer"><a href="#" type="button" class="btn btn-block btn-primary">Create</a></div>
+          </div>
+
+        </div>
+        <div class="col-xs-6">
+          <div class="panel panel-default">
+            <div class="panel-body text-center">
+              <span>Connect to an ecommerce platform</span>
+              <img style="max-width:40px;" src="https://www.printful.com/static/images/integrations/shopify.svg">
+              <img style="max-width:40px;" src="https://www.printful.com/static/images/integrations/woocommerce.svg">
+              <img style="max-width:40px;" src="https://www.printful.com/static/images/integrations/bigcommerce.svg">
+
+            </div>
+
+            <div class="panel-footer"><a href="/scp/sync" type="button" class="btn btn-block btn-primary">Connect</a></div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="panel panel-default">
+        <div class="panel-heading">Stores List</div>
+        <div style="padding:0" class="panel-body" id="shop-userid-<%= req.session.user.id %>">
+
+          <table class="table table-hover table-condensed" id="store-table">
+
+            <thead>
+            <tr>
+              <th>Platform</th>
+              <th>Name</th>
+              <th>Total cost</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <% _.each(foundShop, function(shop) { %>
+            <tr>
+              <td><img src="../images/shopify.png" class="media-object" style="display: initial;width:30px"></td>
+              <td><%= shop.name %></td>
+              <td class="text_price">$<%= shop.total %>
+                <!--<a href="/scp/store?name= shop.name " class="btn btn-primary">Manage</a>-->
+                <!--<a href="/scp/store?action=delete&id=<%= shop.id %>&name=<%= shop.name %>" type="button" class="btn btn-warning">Remove</a>-->
+              </td>
+            </tr>
+            <% }) %>
+            </tbody>
+            <tfoot>
+            <tr>
+              <td></td>
+              <td class="text_price">TOTAL</td>
+              <td class="text_price">$<%= parseFloat(getSum).toFixed(2) %></td>
+            </tr>
+            </tfoot>
+          </table>
+
+
+
+        </div>
+      </div>
+
+      <!--<div class="text-center">-->
+        <!--<a class="btn btn-lg btn-success" href="/scp/sync">-->
+          <!--<i class="fa fa-shopping-bag"></i> Sync Store</a>-->
+      <!--</div>-->
+
+
+
+    </div>
+
+
+
+  </div>
+</div>

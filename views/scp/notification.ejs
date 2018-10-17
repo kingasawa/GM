@@ -1,0 +1,14 @@
+<table class="table table-hover table-condensed" id="store-table">
+
+  <tbody>
+  <% _.each(foundWebhooks, function(hook) { %>
+  <tr>
+
+    <td><%= hook.id %></td>
+    <td><%= hook.address %></td>
+    <td><%= hook.topic %></td>
+
+  </tr>
+  <% }) %>
+  </tbody>
+</table>

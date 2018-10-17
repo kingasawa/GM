@@ -1,0 +1,38 @@
+<!-- Modal choose design-->
+<div id="chooseDesignModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Click a Design to select</h4>
+        <div class="hidden">
+          Bulk upload: <input type="checkbox" name="enable-bulk-upload" data-toggle="toggle">
+        </div>
+      </div>
+      <div class="modal-body user-design">
+        <div class="alert alert-info hidden" role="alert">
+          <strong>New feature!</strong> Multiple image selection for Bulk Upload is now avaiable.
+        </div>
+
+        <div class="row">
+          <% _.each(designData,function(design){ %>
+          <div class="col-sm-3 col-xs-6">
+            <div class="design-icon text-center" id="<%= design.id %>">
+              <img class="img-logo lazy" data-design_id="<%= design.design_id %>" data-id="<%= design.id %>" data-src="<%= design.thumbUrl %>">
+              <div class="bulk-upload-item" style="display: none">
+                <input type="checkbox" name="designImages" value="<%=design.id%>"
+                       class="img-logo-checkbox">
+              </div>
+              <!--tạm thời sẽ ẩn chức năng xoá design đi -->
+              <!--<div class="removeable-design"><a class="remove-design-button" data-id="<%= design.id %>" href="#"><i class="fa fa-close"></i></a></div>-->
+            </div>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

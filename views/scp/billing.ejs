@@ -1,0 +1,55 @@
+<div class="se-pre-con"></div>
+<div class="container" id="seller-page">
+  <aside class="sidenav">
+    <%- partial ('menu-side.ejs') %>
+  </aside>
+
+  <div class="main-content">
+    <div class="head-content">
+      <a class="menu-button" href="#">
+        <div class="menu-arrow aright text-center">
+          <i class="fa fa-chevron-right pull-left"></i>
+        </div>
+      </a>
+      <a class="menu-button" href="#">
+        <div class="sr-only menu-arrow aleft text-center">
+          <i class="fa fa-chevron-left pull-left"></i>
+        </div>
+      </a>
+      <div class="menu-title">
+        <h4><span class="name-param">Payouts</span></h4>
+      </div>
+    </div>
+
+    <div class="detail-content" id="payout-page">
+      <ul class="breadcrumb">
+        <li><a href="/scp"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active">Billing</li>
+      </ul>
+
+      <div class="width1000">
+
+        <div class="panel panel-default">
+          <div style="padding:15px" class="panel-heading">
+            <div class="payout-title">Payment method</div>
+          </div>
+
+          <div class="panel-body">
+            <% if(!foundPaypal) { %>
+            <p>You have not set a payment method yet. We need your information in order to bill you automatically for each order.</p>
+            <a href="#" type="button" class="paypal-adaptive-login btn btn-success"><i class="fa fa-paypal"></i> Log in with PayPal</a>
+            <h6>Don’t have an account? <a target="_blank" href="https://www.paypal.com/signup/account">Create a PayPal account</a></h6>
+
+            <% }else { %>
+            <p>Your PayPal account <strong><%= foundPaypal.senderEmail %></strong> has been successfully connected.</p>
+            <a href="/paypal/removePreapproval" type="button" class="paypal-adaptive-cancel btn btn-danger"><i class="fa fa-trash"></i> Remove paypal account</a>
+            <% } %>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+

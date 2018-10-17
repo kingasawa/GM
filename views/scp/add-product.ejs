@@ -1,0 +1,494 @@
+<div class="se-pre-con"></div>
+<div style="background:#fff" class="container" id="seller-page">
+
+
+  <div class="main-content add-product">
+    <div class="head-content">
+      <div style="padding:10px" class="menu-title">
+        <a href="/scp"><img style="max-width:160px" class="brand-logo" src="/images/lg.png"></a>
+      </div>
+      <div class="menu-proccess">
+        <ol class="process-arrow">
+          <li class="design-step-1"><a class="back-step-1" href="#step-1"><span class="badge">1</span> Design</a></li>
+          <li class="design-step-2"><a href="#step-2"><span class="badge">2</span> Title & Description</a></li>
+          <button style="margin-left:50px" type="button" class="next-step-2 btn btn-success">Next Step</button>
+        </ol>
+      </div>
+    </div>
+
+    <div class="main-section tab-content">
+      <div id="user-design-section" class="tab-pane fade in active">
+        <ul class="breadcrumb">
+          <li><a href="/scp"><i class="fa fa-home"></i> Dashboard</a></li>
+          <li><a href="/scp/product?a=add">Product</a></li>
+          <li class="active">Design</li>
+        </ul>
+        <div class="left-side col-sm-3">
+          <!--<div style="display: none">-->
+          <div class="alert alert-success" role="alert">
+            <h4>Start design your product</h4>
+            <p>Upload an image to be placed on your product</p>
+            <button class="btn btn-danger btn-block btn-lg" type="button" id="open-product-gallery" style="margin-top:10px;font-size: 15px">
+              <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+              Open Gallery
+            </button>
+          </div>
+            <!--<h4>Start design your product</h4>-->
+            <!--<p>Write text or upload an image to be placed on your product</p>-->
+            <!--<div class="btn-group">-->
+              <!--<button type="button" class="btn-group-enter btn btn-success">-->
+                <!--<i class="fa fa-font"></i>-->
+                <!--<span>Text</span>-->
+              <!--</button>-->
+              <!--<a data-toggle="modal" data-target="#chooseDesignModal" type="button" class="btn-group-enter btn btn-success">-->
+                <!--<i class="fa fa-image"></i>-->
+                <!--<span>Image</span>-->
+              <!--</a>-->
+            <!--</div>-->
+            <!--<hr>-->
+          <!--</div>-->
+          <h4>Selected products</h4>
+          <p>You can select multiple different products and color. Click on individual products for preview</p>
+          <div style="margin-bottom:10px">
+            <div class="btn-group">
+              <button style="margin-right:2px" type="button" class="show-back-toggle btn btn-primary"><i class="fa fa-refresh"></i> <span>Show back</span></button>
+              <a data-toggle="modal" data-target="#chooseProductModal" type="button" class="btn btn-primary"><i class="fa fa-plus"></i> Add more</a>
+            </div>
+          </div>
+
+          <!--front img-->
+          <ul class="style-product-selector define-front-img img-selected">
+            <li class="js-preview-product selected-product" id="preview-color-id-<%= foundMaterial[0].id %>_<%= foundMaterial[0].id %>0">
+              <a href="#">
+                <span class="sr-only mockup-name"><%= foundMaterial[0].name %></span>
+                <span class="sr-only mockup-id"><%= foundMaterial[0].id %></span>
+
+                <img class="material-icon" style="background-color:<%= foundMaterial[0].color[0].color[0].value %>"
+                     data-id="<%- foundMaterial[0].image[0].image.frontimg.split('600x600/')[1] %>"
+                     src="<%= foundMaterial[0].image[0].image.frontimg %>">
+              </a>
+            </li>
+          </ul>
+
+          <!--back img-->
+          <ul class="sr-only style-product-selector define-back-img">
+            <li class="js-preview-product selected-product" id="preview-color-id-<%= foundMaterial[0].id %>_10">
+              <a href="#">
+                <img class="material-icon" style="background-color:<%= foundMaterial[0].color[0].color[0].value %>"
+                     data-id="<%- foundMaterial[0].image[0].image.backimg.split('600x600/')[1] %>"
+                     src="<%= foundMaterial[0].image[0].image.backimg %>">
+              </a>
+            </li>
+
+          </ul>
+
+        </div>
+        <div style="min-width:600px" class="col-sm-6">
+          <div class="page preview-product-section text-center">
+            <img id="tshirtFacing" style="background-color:<%= foundMaterial[0].color[0].color[0].value %>"
+                 data-id="<%- foundMaterial[0].image[0].image.frontimg.split('600x600/')[1] %>"
+                 src="<%= foundMaterial[0].image[0].image.frontimg %>">
+            <div id="drawingArea" style="top:<%= foundMaterial[0].config[0].top %>px;left:<%= foundMaterial[0].config[0].left %>px;width:<%= foundMaterial[0].config[0].width %>px;height:<%= foundMaterial[0].config[0].height %>px">
+              <canvas id="tcanvas" width="<%= foundMaterial[0].config[0].width %>" height="<%= foundMaterial[0].config[0].height %>" class="hover" style="-webkit-user-select: none;top: 0"></canvas>
+            </div>
+            <div id="imageeditor" style="position:absolute;top:-20px;margin:80px 210px; width: 175px">
+              <button id="align-justify-selected" title="Fit image"><i class="fa fa-align-justify"></i></button>
+              <button id="align-left-selected" title="Align left selected item"><i class="fa fa-align-left"></i></button>
+              <button id="align-center-selected" title="Align center selected item"><i class="fa fa-align-center"></i></button>
+              <button id="align-right-selected" title="Align right selected item"><i class="fa fa-align-right"></i></button>
+              <button id="remove-selected" title="Delete selected item"><i style="color:#a94442" class="fa fa-trash"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="right-side material-name col-sm-3">
+          <h3><%= foundMaterial[0].name %></h3>
+          <a href="#" data-toggle="modal" data-target="#chooseProductModal" class="text-success"><i
+              class="fa fa-plus-circle"></i> Manage or add more products</a>
+          <p><a href="#" data-toggle="modal" data-target="#loadSettingModal" class="text-warning"><i
+                class="fa fa-cloud-download"></i> Load your saved setting</a></p>
+          <hr>
+          <h4>Change color preview</h4>
+          <ul class="style-color-selector" id="getcolor">
+            <% _.each(foundMaterial[0].color[0].color,function(color){ %>
+            <li class="js-preview-color" data-toggle="tooltip" title="<%= color.name %>" ><a class="color-hover-preview" href="#"><span class="<% if(color.value=='#ffffff') { %>is-selected<% } %>" style="background-color:<%= color.value %>"></span></a></li>
+            <% }) %>
+          </ul>
+          <hr>
+          <h4>Estimated cost</h4>
+          <p>This is the cost per unit. You can set the final selling price for your products on the next step.</p>
+          <h4>Only from $<%= foundMaterial[0].cost[0].cost %></h4>
+        </div>
+
+      </div>
+      <div id="details-section" class="tab-pane fade">
+        <ul class="breadcrumb">
+          <li><a href="/scp"><i class="fa fa-home"></i> Dashboard</a></li>
+          <li><a href="/scp/product?a=add">Product</a></li>
+          <li class="active">Details Product</li>
+        </ul>
+        <div class="section-notification"></div>
+
+        <div class="col-sm-5"><form>
+
+            <div class="form-group">
+              <label for="shop">Shop</label>
+
+                <select style="height:50px;" class="form-control" name="shop" id="shop">
+                  <%if(foundShop.length > 1){%>
+                    <option value="choose-shop">Select shop</option>
+                  <%}%>
+                  <% _.each(foundShop,function(shop){ %>
+                  <option value="<%= shop.name %>"><%= shop.name %></option>
+                  <% }) %>
+                </select>
+
+            </div>
+
+            <div class="form-group">
+              <label style="width:100%" for="group-product">Group as single product</label>
+
+                <div style="float:left;margin-right:5px" class="btn-group" id="toggle_event_editing">
+                  <button style="padding:7px" type="button" class="btn btn-info locked_active">ON</button>
+                  <button style="padding:7px" type="button" class="btn btn-default unlocked_inactive">OFF</button>
+                </div>
+              <div style="line-height:35px" id="switch_status"><span>Group all style as a single product.</span>
+                  <p style="width:100%;float:left" class="count-all-variant">you choose <strong></strong> variants (max 100)</p>
+                </div>
+
+            </div>
+
+          <div class="form-group">
+            <label for="title">Title</label>
+              <input type="text" class="input-lg form-control" name="title" id="title" required>
+          </div>
+
+            <div class="form-group">
+              <label for="handle">SEO URL</label>
+              <div class="input-group">
+                <span style="font-size:16px" class="input-lg input-group-addon">/products/</span>
+                <input type="text" class="input-lg form-control" name="handle" id="handle">
+              </div>
+
+            </div>
+
+          <div class="sr-only form-group">
+            <label for="body_html">Description</label>
+              <textarea class="editor form-control" rows="5" id="richText" name="body_html"></textarea>
+          </div>
+
+          <div class="sr-only form-group">
+            <label for="vendor">Vendor</label>
+              <input type="text" class="input-lg form-control" name="vendor" id="vendor">
+          </div>
+
+          <div class="form-group">
+            <label for="color">Collection</label>
+            <div class="load-collection-option">
+              <input type="text" class="input-lg form-control" name="collection" id="collection">
+              <div class="load-collection-here"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="tags">Tags</label>
+              <input type="text" class="input-lg form-control" name="tags" data-role="tagsinput" >
+          </div>
+
+            <div class="checkbox">
+              <span>Sales channels visibility</span>
+                <label style="float:right"><input name="publish" type="checkbox"> Online store</label>
+            </div>
+
+
+
+            <hr>
+
+            <div class="col-xs-12">
+              <a type="button" class="back-step-1 btn btn-success">Back to Design</a>
+              <a data-toggle="modal" data-target="#mySavingModal" type="button" class="saving btn btn-warning">Save Setting</a>
+              <button type="button" class="ready-post-button btn btn-warning">Post products</button>
+            </div>
+          </form>
+        </div>
+        <div class="col-sm-7">
+          <span class="sr-only url-render"></span>
+          <span class="sr-only choose-which">choose-front</span>
+
+          <div class="panel-group" id="accordion">
+            <div class="ready-to-post panel panel-default render-product-id-<%= foundMaterial[0].id %>">
+              <span class="sr-only materialId"><%= foundMaterial[0].id %></span>
+              <span class="sr-only frontImg active-image"><%= foundMaterial[0].image[0].image.frontimg %></span>
+              <span class="sr-only backImg"><%= foundMaterial[0].image[0].image.backimg %></span>
+              <span class="sr-only hideTop"><%= foundMaterial[0].config[0].top %></span>
+              <span class="sr-only hideLeft"><%= foundMaterial[0].config[0].left %></span>
+              <span class="sr-only hideWidth"><%= foundMaterial[0].config[0].width %></span>
+              <span class="sr-only hideHeight"><%= foundMaterial[0].config[0].height %></span>
+              <div class="panel-heading">
+                <div class="media">
+                  <div class="media-left">
+                    <img class="front-image image-is-selected" src="" class="media-object" style="max-width:inherit;width:120px">
+                    <img class="back-image sr-only" src="" class="media-object" style="max-width:inherit;width:120px">
+                    <p class="variant-count"><strong></strong> variant(s)</p>
+                  </div>
+                  <div class="media-body">
+                    <h4 class="media-heading">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#mockup<%= foundMaterial[0].id %>"><%= foundMaterial[0].name %><i class="pull-right fa fa-sort"></i></a></h4>
+                    <p><ul class="style-color-selector">
+                      <li class="js-preview-color" id="color-id-<%= foundMaterial[0].id %>0">
+                        <span class="sr-only render-color-id"><%= foundMaterial[0].id %>0</span>
+                        <span class="sr-only render-color-name"><%= foundMaterial[0].color[0].color[0].name %></span>
+                        <a href="#">
+                          <span class="select-color-mockup is-default-color" style="background-color:<%= foundMaterial[0].color[0].color[0].value %>"></span>
+                        </a>
+                      </li>
+                    </ul></p>
+                    <div class="set-price form-group">
+                      <label class="control-label" for="email">SELL FOR</label>
+                      <input type="text" class="allprice form-control" value="<%= foundMaterial[0].cost[0].minPay %>">
+                    </div>
+                    <div class="min-price"><span>MINIMUM PRICE</span><p></p></div>
+                    <div class="profit">
+                      <span>PROFIT <i data-toggle="tooltip"
+                                      title="INCLUDES ALL PROCESSING FEES. ADDITIONAL FEES MAY APPLY WHEN PAYING OUT YOUR PROFITS OUTSIDE US."
+                                      class="fa fa-info-circle"></i></span>
+                      <p class="estimate-profit"></p>
+                    </div>
+                    <p class="check-min-price"></p>
+
+                  </div>
+
+                </div>
+              </div>
+              <div id="mockup<%= foundMaterial[0].id %>" class="panel-collapse collapse">
+                <div class="panel-body">
+                  <form class="post-product-shopify">
+
+                    <div class="range-size-price">
+                      <table class="table" id="size-table">
+                        <tbody>
+                        <tr>
+                          <td><input id="select-all" type="checkbox" checked></td>
+                          <td>Size</td>
+                          <td>Base Cost</td>
+                          <td>Price</td>
+                          <td>Profit</td>
+                        </tr>
+                        <% for (var i=0 ; i < foundMaterial[0].size[0].size.length ; i++) { %>
+                        <tr class="checked-or-not size-price-checked">
+                          <td><input class="select-one" type="checkbox" checked></td>
+                          <td class="each-size-name" style="font-weight:bold;"><%= foundMaterial[0].size[0].size[i].size %></td>
+                          <td class="basecost">$<%= foundMaterial[0].size[0].size[i].price %></td>
+                          <td>$ <input style="width:50px;text-align:center;height:30px" class="each-size-value same-price" type="text" class="form-control" name="size<%= foundMaterial[0].size[0].size[i].size %>"></td>
+                          <td class="profit"></td>
+                        </tr>
+                        <% } %>
+                        </tbody>
+                      </table>
+
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Choose material-->
+<div id="chooseProductModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Select products</h4>
+        <!--<span class="pull-right">Total : <strong>21</strong> variants</span>-->
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-xs-12 col-sm-8 list-mockup">
+            <% _.each(foundMaterial, function(material) { %>
+            <div class="col-sm-6 col-md-4 text-center product-sample">
+              <div class="mockup-sample-section" id="mockup-id-<%= material.id %>">
+                <span class="define-mockup-id sr-only"><%= material.id %></span>
+                <span class="define-top sr-only"><%= material.config[0].top %></span>
+                <span class="define-left sr-only"><%= material.config[0].left %></span>
+                <span class="sr-only define-width"><%= material.config[0].width %></span>
+                <span class="sr-only define-height"><%= material.config[0].height %></span>
+                <div class="sr-only define-mockup-description"><%= material.description %></div>
+                <h5><%= material.name %></h5>
+                <img class="material-front-img" src="<%= material.image[0].image.frontimg %>">
+                <img class="sr-only material-back-img" src="<%= material.image[0].image.backimg %>">
+                <span>From $<%= material.cost[0].cost %> per unit</span>
+                <span class="sr-only define-minPay"><%= material.cost[0].minPay %></span>
+                <p><%= material.size[0].size[0].size %>
+                  - <%= material.size[0].size[material.size[0].size.length - 1].size %></p>
+                <span class="sr-only size-range"><% _.each(material.size[0].size,function(eachsize) { %><%= eachsize.size %>-<%  }) %></span>
+                <div class="select-color">
+                  <p>Select colors</p>
+                  <ul class="style-color-selector">
+                    <% for(var i = 0;i < material.color[0].color.length; i++) { %>
+                    <li class="js-preview-color" id="color-id-<%= material.id %><%= i %>" data-toggle="tooltip" title="<%= material.color[0].color[i].name %>">
+                      <span class="define-color-id sr-only"><%= material.id %><%= i %></span>
+                      <span class="define-color-name sr-only"><%= material.color[0].color[i].name %></span>
+                      <a href="#"><span class="select-color-mockup"
+                                        style="background-color:<%= material.color[0].color[i].value %>"></span></a>
+                    </li>
+                    <% } %>
+
+                  </ul>
+
+                </div>
+
+              </div>
+            </div>
+            <% }) %>
+          </div>
+
+          <div class="hidden-xs col-sm-4 choose-product-variant">
+            <div class="choose-variant-title">
+              <h4>Selected products</h4>
+              <p>Click color to remove</p>
+            </div>
+            <div class="choose-variant-detail">
+              <!-- Left-aligned -->
+              <div class="media choose-product-mockup selected-mockup-id-<%= foundMaterial[0].id %>">
+                <span class="define-mockup-id sr-only"><%= foundMaterial[0].id %></span>
+                <div class="media-left">
+                  <img src="<%= foundMaterial[0].image[0].image.frontimg %>" class="media-object" style="width:90px">
+                </div>
+                <div class="media-body">
+                  <h5 class="media-heading"><%= foundMaterial[0].name %></h5>
+                  <ul class="style-color-selector">
+                    <li class="js-preview-color" id="color-id-<%= foundMaterial[0].id %>0">
+                      <span class="define-color-id sr-only"><%= foundMaterial[0].id %>0</span>
+                      <a href="#">
+                        <span class="select-color-mockup"
+                              style="background-color:<%= foundMaterial[0].color[0].color[0].value %>"></span>
+                      </a>
+                    </li>
+                  </ul>
+                  <!--<p>variants : 19</p>-->
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn btn-block btn-default" data-dismiss="modal">Done</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Modal choose design-->
+<div id="chooseDesignModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Design Gallery</h4>
+      </div>
+      <div class="modal-body user-design">
+        <div class="row">
+          <% _.each(allDesign,function(design){ %>
+          <div class="col-sm-2 col-xs-6">
+            <div class="design-icon text-center" id="<%= design.id %>">
+              <img class="img-logo" data-id="<%= design.id %>" src="<%= design.thumbUrl %>">
+              <div class="removeable-design"><a class="remove-design-button" data-id="<%= design.id %>" href="#"><i class="fa fa-close"></i></a></div>
+            </div>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="sr-only" name="owner-id" value="<%= req.session.user.id %>">
+        <form action="/uploader" class="dropzone" id="designUploader"></form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Modal Error-->
+<div class="modal fade modal-error" id="myErrorModal" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><i class="fa fa-exclamation-triangle"></i> Error</h4>
+      </div>
+      <div class="modal-body">
+        <p class="error-content"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Error-->
+<div class="modal fade modal-warning" id="mySavingModal" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><i class="fa fa-cloud"></i> Save Setting</h4>
+      </div>
+      <div class="modal-body">
+        <form id="save-campaign">
+          <div class="form-group">
+            <label for="save-name">Setting Name</label>
+            <input type="text" class="input-lg form-control" name="save-name" id="save-name">
+          </div>
+          <button type="submit" class="btn btn-success">Save</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Save-->
+<div class="modal fade modal-warning" id="loadSettingModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><i class="fa fa-cloud"></i> Load save setting</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table table-hover" id="save-table">
+          <thead>
+          <tr>
+            <th>Save ID</th>
+            <th>Name</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% _.each(foundSave, function(save) { %>
+          <tr class="save-tr" id="save-id-<%= save.id %>">
+            <td class="save-id"><%= save.id %></td>
+            <td class="save-name"><%= save.savingName %></td>
+            <td>
+              <a type="button" class="btn btn-primary" href="/save/get?id=<%= save.id %>">Load</a>
+              <a type="button" class="delete-setting btn btn-danger" href="#">Delete</a>
+            </td>
+          </tr>
+          <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

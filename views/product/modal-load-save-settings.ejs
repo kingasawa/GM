@@ -1,0 +1,33 @@
+<div class="modal fade modal-warning" id="loadSettingModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><i class="fa fa-cloud"></i> Load saved settings</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table table-hover" id="save-table">
+          <thead>
+          <tr>
+            <th>Save ID</th>
+            <th>Name</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% _.each(saveCampaignData, function(save) { %>
+          <tr class="save-tr" id="save-id-<%= save.id %>">
+            <td class="save-id"><%= save.id %></td>
+            <td class="save-name"><%= save.savingName %></td>
+            <td>
+              <a type="button" class="btn btn-primary" href="/product/design?saveId=<%= save.id %>">Load</a>
+              <a type="button" class="delete-setting btn btn-danger" href="#">Delete</a>
+            </td>
+          </tr>
+          <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

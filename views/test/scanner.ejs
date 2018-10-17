@@ -1,0 +1,25 @@
+<div style="margin-top:200px" class="container"><p id="pTest"></p>
+
+  <input id="iTest"></input>
+
+</div>
+
+
+<script>
+
+    $(document).scannerDetection({
+      timeBeforeScanTest: 200, // wait for the next character for upto 200ms
+      avgTimeByChar: 100, // it's not a barcode if a character takes longer than 100ms
+      onComplete: function(barcode, qty){
+        console.log('scan');
+        $('#pTest').text(barcode);
+        alert(barcode);
+      } // main callback function
+    });
+
+
+
+    //$('.search').find('input#foo').focus();
+
+
+</script>

@@ -1,0 +1,172 @@
+<div class="container" id="seller-page">
+  <aside class="sidenav">
+    <%- partial('menu-side.ejs') %>
+  </aside>
+
+  <div class="main-content">
+    <div class="head-content">
+      <a class="menu-button" href="#">
+        <div class="menu-arrow aright text-center">
+          <i class="fa fa-chevron-right pull-left"></i>
+        </div>
+      </a>
+      <a class="menu-button" href="#">
+        <div class="sr-only menu-arrow aleft text-center">
+          <i class="fa fa-chevron-left pull-left"></i>
+        </div>
+      </a>
+      <div class="menu-title">
+        <h4><span class="name-param">Profile <%= _.get(req, 'user.username', 'n/a') %></span></h4>
+      </div>
+    </div>
+
+    <div class="detail-content" id="profile-page">
+
+
+      <ul class="nav nav-tabs">
+        <!--<li class="active"><a data-toggle="tab" href="#account">ACCOUNT</a></li>-->
+        <li class="active"><a data-toggle="tab" href="#payment">PAYMENT METHODS</a></li>
+        <li><a data-toggle="tab" href="#profile">PROFILE</a></li>
+        <li><a data-toggle="tab" href="#information">BILLING ADDRESS</a></li>
+        <li><a data-toggle="tab" href="#api-access">API ACCESS</a></li>
+
+      </ul>
+
+      <div style="margin-top:15px" class="sr-only update-setting-notification alert alert-success"></div>
+
+      <div class="tab-content">
+
+        <div id="information" class="tab-pane fade">
+          <div class="panel panel-default">
+            <div class="panel-heading">BILLING ADDRESS</div>
+            <div class="panel-body">
+              <form id="billingAddress">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="firstname">First Name</label>
+                    <input type="text" class="form-control" id="firstname" name="firstname"
+                           value="<%= _.get(foundAddress, 'firstname', '') %>">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="lastname">Last Name</label>
+                    <input type="text" class="form-control" id="lastname" name="lastname"
+                           value="<%= _.get(foundAddress, 'lastname', '') %>">
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="street1">Street Address 1</label>
+                    <input type="text" class="form-control" id="street1" name="street1"
+                           value="<%= _.get(foundAddress, 'street1', '') %>">
+                  </div>
+                  <div class="form-group">
+                    <label for="street2">Street Address 2</label>
+                    <input type="text" class="form-control" id="street2" name="street2"
+                           value="<%= _.get(foundAddress, 'street2', '') %>">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" id="city" name="city"
+                           value="<%= _.get(foundAddress, 'city', '') %>">
+                  </div>
+                  <div class="form-group">
+                    <label for="zip">Zip/Postal Code</label>
+                    <input type="text" class="form-control" id="zip" name="zip"
+                           value="<%= _.get(foundAddress, 'zip', '') %>">
+                  </div>
+                  <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="text" class="form-control" id="phone" name="phone"
+                           value="<%= _.get(foundAddress, 'phone', '') %>">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="state">State/Province</label>
+                    <input type="text" class="form-control" id="state" name="state"
+                           value="<%= _.get(foundAddress, 'state', '') %>">
+                  </div>
+                  <div class="form-group">
+                    <label for="country">Country</label>
+                    <input type="text" class="form-control" id="country" name="country"
+                           value="<%= _.get(foundAddress, 'country', '') %>">
+                  </div>
+                  <div class="form-group">
+                    <label for="fax">Fax</label>
+                    <input type="text" class="form-control" id="fax" name="fax"
+                           value="<%= _.get(foundAddress, 'fax', '') %>">
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-success">Save</button>
+              </form>
+
+            </div>
+          </div>
+
+        </div>
+
+        <div id="profile" class="tab-pane fade">
+          <div class="panel panel-default">
+            <!--<div class="panel-heading">PROFILE</div>-->
+            <div class="panel-body">
+              <form id="profileForm" class="form-horizontal">
+
+                <div class="form-group">
+                  <label class="control-label col-sm-2" for="pwd">Password:</label>
+                  <div class="col-sm-10">
+                    <!--<input type="password" class="form-control" id="pwd" placeholder="Enter password">-->
+                    <a href="#" id="password" data-type="password" data-url="/user/update" data-title="Enter password">Change
+                      password</a>
+                  </div>
+                </div>
+
+
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div id="payment" class="tab-pane fade in active"></div>
+
+        <div id="api-access" class="tab-pane fade">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <form id="profileForm" class="form-horizontal">
+                <div class="form-group">
+                  <label class="control-label col-sm-4" for="pwd">API KEY:</label>
+                  <div id="example-target" class="example">
+                    <div id="api-token-generator">
+                      <div class="input-group copy-wrapper">
+                        <span id="token-box"><%= _.get(foundApiToken, 'token', '') %></span>
+                        <span class="input-group-button">
+                          <button id="copy-api-key" class="btn" type="button" data-clipboard-demo=""
+                                  data-toggle="tooltip" title="Click to copy token"
+                                  data-clipboard-target="#token-box">
+                            <i class="fa fa-clipboard" aria-hidden="true"></i>
+                          </button>
+                        </span>
+                      </div>
+                      <div class="form-group">
+                      <div class="col-sm-12">
+                        <button id="generate-token" class="btn btn-primary btn-block">Generate Token</button>
+                      </div>
+                    </div>
+                    </div>
+
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

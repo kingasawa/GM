@@ -1,0 +1,221 @@
+<div class="container" id="admin-page">
+  <aside class="sidenav">
+    <%- partial ('menu-side.ejs') %>
+  </aside>
+
+  <div class="main-content">
+    <div class="head-content">
+      <a class="menu-button" href="#">
+        <div class="menu-arrow aright text-center">
+          <i class="fa fa-chevron-right pull-left"></i>
+        </div>
+      </a>
+      <a class="menu-button" href="#">
+        <div class="sr-only menu-arrow aleft text-center">
+          <i class="fa fa-chevron-left pull-left"></i>
+        </div>
+      </a>
+      <div class="menu-title">
+        <h4><span class="name-param">Product Options</span></h4>
+      </div>
+    </div>
+
+    <div class="detail-content" id="option-page">
+      <ul class="breadcrumb">
+        <li><a href="/acp"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active">Product Options</li>
+      </ul>
+
+      <div class="sr-only alert"></div>
+
+      <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#color-tab">Color</a></li>
+        <li><a data-toggle="tab" href="#size-tab">Size</a></li>
+        <li class="pull-right"><a data-toggle="tab" href="#add-option"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add</a></li>
+      </ul>
+
+      <div class="panel panel-default" id="edit-option">
+        <div class="panel-heading">Edit option ID <strong></strong></div>
+        <div class="panel-body">
+          <form class="form-horizontal" id="edit-value-option">
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="name">Type</label>
+              <div class="col-sm-10">
+                <input type="text" name="type" id="type" class="input-lg form-control" disabled/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="name">Name</label>
+              <div class="col-sm-10">
+                <input type="text" class="input-lg form-control" name="name" id="name">
+                <input class="sr-only" name="id" id="id">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="value">Value</label>
+              <div class="col-sm-10">
+                <input type="text" class="input-lg form-control" name="value-size" id="value">
+                <div id="cp3" class="sr-only input-group colorpicker-component">
+                  <input type="text" value="" name="value-color" class="input-lg form-control" />
+                  <span class="input-lg input-group-addon live-change-color"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default"><i class="fa fa-pencil"></i> Edit</button>
+                <a class="close-edit-option btn btn-default" href="#"><i class="fa fa-close"></i> Close</a>
+              </div>
+            </div>
+          </form>
+        </div>
+
+
+      </div>
+
+      <div class="tab-content">
+        <div class="tab-pane fade in active" id="color-tab">
+          <table class="table table-hover"  id="option-color-table">
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th class="sr-only">Type</th>
+              <th>Value</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% _.each(optionColor, function(color) { %>
+            <tr id="opt-id-<%= color.id %>">
+              <td class="option-id"><%= color.id %></td>
+              <td class="option-name"><%= color.name %></td>
+              <td class="option-type sr-only"><%= color.type %></td>
+              <td class="option-value value-color"><div style="background:<%= color.value %>"><%= color.value %></div></td>
+              <td class="option-status"><%= color.status %></td>
+              <td>
+                <div class="btn-group">
+                  <a class="fa-button-edit edit-option btn btn-default" href="#"><i class="fa fa-pencil"></i></a>
+                  <a class="fa-button-delete delete-option btn btn-default" href="#"><i class="fa fa-trash"></i></a>
+                </div>
+              </td>
+            </tr>
+            <% }) %>
+
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tab-pane fade" id="size-tab">
+          <table class="table table-hover" id="option-size-table">
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th class="sr-only">Type</th>
+              <th>Value</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% _.each(optionSize, function(size) { %>
+            <tr id="opt-id-<%= size.id %>">
+              <td class="option-id"><%= size.id %></td>
+              <td class="option-name"><%= size.name %></td>
+              <td class="option-type sr-only"><%= size.type %></td>
+              <td class="option-value value-size"><%= size.value %></td>
+              <td class="option-status"><%= size.status %></td>
+              <td>
+                <div class="btn-group">
+                  <a class="fa-button-edit edit-option btn btn-default" href="#"><i class="fa fa-pencil"></i></a>
+                  <a class="fa-button-delete delete-option btn btn-default" href="#"><i class="fa fa-trash"></i></a>
+                </div>
+              </td>
+            </tr>
+
+
+            <% }) %>
+
+
+            </tbody>
+          </table>
+        </div>
+
+
+        <div class="tab-pane fade panel panel-default" id="add-option">
+          <div class="panel-heading">Add a new option</div>
+          <div class="panel-body">
+            <form class="form-horizontal" id="add-new-option">
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="name">Type</label>
+                <div class="col-sm-10">
+                  <select name="type" class="selectpicker" id="choose-option">
+                    <option value="choose">Choose a type</option>
+                    <option value="color">Color</option>
+                    <option value="size">Size</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="name">Name</label>
+                <div class="col-sm-10">
+                  <input type="text" class="input-lg form-control" name="name" id="name">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="value">Value</label>
+                <div class="col-sm-10">
+                  <input type="text" class="input-lg form-control" name="value-size" id="value">
+                  <div id="cp2" class="sr-only input-group colorpicker-component">
+                    <input type="text" value="#00AABB" name="value-color" class="input-lg form-control" />
+                    <span class="input-lg input-group-addon live-change-color"></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-default">Add new</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+
+
+
+      </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="delOptionModal" role="dialog">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Delete Option</h4>
+          </div>
+          <div class="modal-body">
+
+            <p>Do you want to delete <strong class="option-type"></strong> with name <strong class="option-name"></strong>.</p>
+              <input class="sr-only" name="id">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            <a type="button" class="delete-option btn btn-danger">Delete it</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>

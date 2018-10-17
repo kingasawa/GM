@@ -1,0 +1,637 @@
+<div class="se-pre-con"></div>
+<div style="" class="container" id="seller-page">
+  <div class="main-content add-product">
+    <div class="head-content navbar navbar-default navbar-fixed-top">
+      <div style="padding:10px" class="menu-title">
+        <a href="/scp"><img style="max-width:160px" class="brand-logo" src="/images/lg.png"></a>
+      </div>
+      <div class="menu-proccess">
+        <ol class="process-arrow">
+          <li class="design-step-1">
+            <a class="back-step-1 active" data-step="1" href="#">
+              <span class="badge">1</span> Design
+            </a>
+          </li>
+          <li class="design-step-2">
+            <a class="disabled to-step-2" data-step="2" href="#">
+              <span class="badge">2</span> Details
+            </a>
+          </li>
+          <button type="button" class="next-step-2 btn btn-success disabled">Next Step</button>
+        </ol>
+      </div>
+    </div>
+
+    <div style="margin-top:61px" class="main-section">
+      <div id="user-design-section" class="">
+        <ul class="breadcrumb">
+          <li><a href="/scp"><i class="fa fa-home"></i> Dashboard</a></li>
+          <li><a href="/product/design">Add Products</a></li>
+          <li class="active">Design</li>
+        </ul>
+        <div class="left-side col-md-3">
+          <!--<div style="display: none">-->
+          <%if(showSettings === false){%>
+          <div class="alert alert-success" role="alert">
+            <h4>Start design your product</h4>
+            <p>Upload or choose an image to be placed on your product</p>
+            <button class="btn btn-success btn-block btn-lg" type="button" id="upload-new-design" style="margin-top:10px;font-size: 15px">
+              <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+              Upload a new design
+            </button>
+            <p style="margin-top:5px" class="text-center">OR</p>
+            <button class="btn btn-danger btn-block btn-lg" type="button" id="open-product-gallery" style="margin-top:10px;font-size: 15px">
+              <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+              Choose an uploaded design
+            </button>
+          </div>
+          <%}%>
+
+          <h4>Selected products</h4>
+          <p>You can select multiple different products and color. Click on individual products for preview</p>
+          <div style="margin-bottom:10px">
+            <div class="btn-group btn-group-justified">
+              <a style="margin-right:2px" type="button" class="select-side-toggle show-back-toggle btn btn-default">
+                <i class="fa fa-refresh"></i> <span>Show back</span>
+              </a>
+              <a data-toggle="modal" data-target="#chooseProductModal" type="button" class="btn btn-primary"><i class="fa fa-plus"></i> Manage products</a>
+            </div>
+          </div>
+
+          <%if(_.get(getSave, 'savingItems')){%>
+          <!--save settings front img-->
+          <ul class="style-product-selector define-front-img img-selected">
+            <% _.each(getSave.savingItems, function(item) { %>
+            <% _.each(item.itemColor, function(color) { %>
+            <li class="js-preview-product <% if(getSave.savingItems[0].itemColor[0].id == color.id) { %>selected-product<%}%>" id="preview-color-id-<%= item.itemID %>_<%= color.id %>">
+              <a href="#">
+                <span class="sr-only mockup-name"><%= item.itemName %></span>
+                <span class="sr-only mockup-id"><%= item.itemID %></span>
+
+                <img class="material-icon material-front-side" style="background-color:<%= color.value %>"
+                     data-id="<%= _.get(materialImageKey[item.itemID], "image.frontimg", "").match(/[a-z0-9]{30,}/)[0] %>"
+                     src="<%= _.get(materialImageKey[item.itemID], "image.frontimg") %>">
+              </a>
+            </li>
+            <% }) %>
+            <% }) %>
+          </ul>
+
+          <!--save settings back img-->
+          <ul class="sr-only style-product-selector define-back-img">
+            <% _.each(getSave.savingItems, function(item) { %>
+            <% _.each(item.itemColor, function(color) { %>
+            <li class="js-preview-product selected-product" id="preview-color-id-<%= item.itemID %>_<%= color.id %>">
+              <a href="#">
+                <span class="sr-only mockup-name"><%= item.itemName %></span>
+                <span class="sr-only mockup-id"><%= item.itemID %></span>
+
+                <img class="material-icon material-back-side" style="background-color:<%= color.value %>"
+                     data-id="<%= _.get(materialImageKey[item.itemID], "image.backimg").match(/[a-z0-9]{30,}/)[0] %>"
+                     src="<%= _.get(materialImageKey[item.itemID], "image.backimg") %>">
+              </a>
+            </li>
+            <% }) %>
+            <% }) %>
+          </ul>
+          <%}else{%>
+
+          <!--front img-->
+          <ul class="style-product-selector define-front-img img-selected">
+            <li class="js-preview-product selected-product" id="preview-color-id-<%= materialData[0].id %>_<%= materialData[0].id %>0">
+              <a href="#">
+                <span class="sr-only mockup-name"><%= materialData[0].name %></span>
+                <span class="sr-only mockup-id"><%= materialData[0].id %></span>
+
+                <img class="material-icon material-front-side" style="background-color:<%= materialData[0].color[0].color[0].value %>"
+                     data-id="<%= materialData[0].image[0].image.frontimg.match(/[a-z0-9]{30,}/)[0] %>"
+                     src="<%= materialData[0].image[0].image.frontimg %>">
+              </a>
+            </li>
+          </ul>
+
+          <!--back img-->
+          <ul class="sr-only style-product-selector define-back-img">
+            <li class="js-preview-product selected-product" id="preview-color-id-<%= materialData[0].id %>_10">
+              <a href="#">
+
+                <span class="sr-only mockup-name"><%= materialData[0].name %></span>
+                <span class="sr-only mockup-id"><%= materialData[0].id %></span>
+                <img class="material-icon material-back-side" style="background-color:<%= materialData[0].color[0].color[0].value %>"
+                     data-id="<%= materialData[0].image[0].image.backimg.match(/[a-z0-9]{30,}/)[0] %>"
+                     src="<%= materialData[0].image[0].image.backimg %>">
+              </a>
+            </li>
+
+          </ul>
+
+          <%}%>
+        </div>
+
+
+        <div style="min-width:600px" class="col-md-6">
+          <div class="page preview-product-section text-center">
+            <!-- Save -->
+            <div id="imageeditor" style="position:absolute;top:0;left:0;width:10px">
+              <button id="align-justify-selected" title="Fit image"><i class="fa fa-align-justify"></i></button>
+              <button id="align-left-selected" title="Align left selected item"><i class="fa fa-align-left"></i></button>
+              <button id="align-center-selected" title="Align center selected item"><i class="fa fa-align-center"></i></button>
+              <button id="align-right-selected" title="Align right selected item"><i class="fa fa-align-right"></i></button>
+              <button id="remove-selected" title="Delete selected item"><i style="color:#a94442;font-size:18px" class="fa fa-trash"></i></button>
+            </div>
+            <%if(_.get(getSave, 'savingItems')){%>
+            <img id="tshirtFacing" style="background-color:<%= getSave.savingItems[0].itemColor[0].value %>"
+                 data-id="<%= _.get(materialImageKey[getSave.savingItems[0].itemID], "image.frontimg").match(/[a-z0-9]{30,}/)[0] %>"
+                 src="<%= _.get(materialImageKey[getSave.savingItems[0].itemID], "image.frontimg") %>">
+            <div id="drawingArea"
+                 class=""
+                 style="width:210px;height:260px;top:<%= _.get(materialConfigKey[getSave.savingItems[0].itemID], 'top') %>px;left:<%= _.get(materialConfigKey[getSave.savingItems[0].itemID], 'left') %>px"
+            >
+              <div class="multiple-image-bulk-upload bulk-upload-item">
+                Bulk upload is enabled! Your design will fit automatically
+              </div>
+              <canvas id="tcanvas" width="<%= _.get(materialConfigKey[getSave.savingItems[0].itemID], 'width') %>" height="<%= _.get(materialConfigKey[getSave.savingItems[0].itemID], 'height') %>" class="hover" style="-webkit-user-select: none;top: 0"></canvas>
+            </div>
+            <%}else{%>
+            <img id="tshirtFacing" style="background-color:<%= materialData[0].color[0].color[0].value %>"
+                 data-id="<%- materialData[0].image[0].image.frontimg.match(/[a-z0-9]{30,}/)[0] %>"
+                 src="<%= materialData[0].image[0].image.frontimg %>">
+            <div id="drawingArea"
+                 class="<%=(showSettings)? 'hidden': ''%>"
+                 style="top:<%= materialData[0].config[0].top %>px;left:<%= materialData[0].config[0].left %>px;width:<%= materialData[0].config[0].width %>px;height:<%= materialData[0].config[0].height %>px"
+            >
+              <div class="multiple-image-bulk-upload bulk-upload-item">
+                Bulk upload is enabled! Your design will fit automatically
+              </div>
+              <canvas id="tcanvas" width="<%= materialData[0].config[0].width %>" height="<%= materialData[0].config[0].height %>" class="hover" style="-webkit-user-select: none;top: 0"></canvas>
+            </div>
+            <%}%>
+
+          </div>
+        </div>
+
+
+
+        <div class="right-side material-name col-md-3"
+
+        >
+          <h3><%= materialData[0].name %></h3>
+          <!--<a href="#" data-toggle="modal" data-target="#chooseProductModal" class="text-success"><i-->
+          <!--class="fa fa-plus-circle"></i> Manage or add more products</a>-->
+          <!--<p><a href="#" data-toggle="modal" data-target="#loadSettingModal" class="text-warning"><i-->
+          <!--class="fa fa-cloud-download"></i> Load your saved setting</a></p>-->
+          <hr>
+          <h4>Change color preview</h4>
+          <ul class="style-color-selector" id="getcolor">
+            <% _.each(materialData[0].color[0].color,function(color){ %>
+            <li class="js-preview-color" data-toggle="tooltip" title="<%= color.name %>" ><a class="color-hover-preview" href="#"><span class="<% if(color.value=='#272727') { %>is-selected<% } %>" style="background-color:<%= color.value %>"></span></a></li>
+            <% }) %>
+          </ul>
+          <hr>
+          <h4>Estimated cost</h4>
+          <p>This is the cost per unit. You can set the final selling price for your products on the next step.</p>
+          <h4>Only from $<span class="material-basecost"><%= materialData[0].cost[0].cost %></span></h4>
+        </div>
+
+      </div>
+      <div id="details-section" class="">
+        <ul class="breadcrumb">
+          <li><a href="/scp"><i class="fa fa-home"></i> Dashboard</a></li>
+          <li><a href="/product/design">Add Products</a></li>
+          <li class="active">Details</li>
+        </ul>
+        <div class="section-notification"></div>
+
+        <div style="margin-bottom:15px" class="col-md-6">
+          <span class="sr-only count_image_to_push">1</span>
+          <form>
+
+
+            <%if(shopData.length<1){%>
+            <div class="noty-connect-store">Please <a href="/scp/store"><strong>connect a store</strong></a> to push products to</div>
+            <span class="sr-only check-have-store">no-store</span>
+            <%} else {%>
+            <div class="form-group">
+              <label for="shop">Select a store</label>
+
+              <select style="height:50px;" class="form-control" name="shop" id="shop">
+                <%if(shopData.length > 1){%>
+                <option value="choose-shop">Select a store</option>
+                <%}%>
+                <% _.each(shopData,function(shop){ %>
+                <option value="<%= shop.name %>"><%= shop.name %></option>
+                <% }) %>
+              </select>
+            </div>
+            <%}%>
+
+            <div class="form-group">
+              <label style="width:100%" for="group-product">Group as single product</label>
+
+              <div style="float:left;margin-right:5px" class="btn-group" id="toggle_event_editing">
+                <%if(_.get(getSave, 'savingToggle')){%>
+                <% if (getSave.savingToggle == 'ON') { %>
+                <button style="padding:7px" type="button" class="btn btn-info locked_active">ON</button>
+                <button style="padding:7px" type="button" class="btn btn-default unlocked_inactive">OFF</button>
+                <% } else { %>
+                <button style="padding:7px" type="button" class="btn btn-default locked_inactive">ON</button>
+                <button style="padding:7px" type="button" class="btn btn-info unlocked_active">OFF</button>
+                <% } %>
+                <% }else{ %>
+                <button style="padding:7px" type="button" class="btn btn-info locked_active">ON</button>
+                <button style="padding:7px" type="button" class="btn btn-default unlocked_inactive">OFF</button>
+                <%}%>
+              </div>
+              <div style="line-height:35px" id="switch_status"><span>Group all styles as a single product.</span>
+                <p style="width:100%;float:left" class="count-all-variant">you choose <strong></strong> variants (max 100)</p>
+              </div>
+
+            </div>
+
+            <div class="form-group">
+              <label for="title">Title <span style="color:#a94442">*</span></label>
+              <input type="text" class="input-lg form-control" name="title" id="title"
+                     required
+                     value="<%= _.get(getSave, 'savingTitle', '') %>"
+              >
+            </div>
+
+            <div class="form-group">
+              <a href="#productDescriptionWrapper" data-toggle="collapse">Edit default description</a>
+              <div id="default-product-description" style="display: none">
+                <%if(_.get(getSave, 'data.body_html', false)){%>
+                <%- _.get(getSave, 'data.body_html', '')%>
+                <%}else{%>
+                <p>Printed in U.S. Guaranteed Safe and Secure Checkout. <br></p>
+                <p><strong>HOW TO ORDER?</strong><br></p>
+                <p> 1. Select Style and Color <br></p>
+                <p>2. Click Green Button <br></p>
+                <p>3. Select Size and Quantity <br></p>
+                <p>4. Enter Shipping and Billing Information <br></p>
+                <p>5. Done! Simple As That! <br></p>
+                <p><em><strong>Tip</strong>: SHARE it with your friends and family, order together and save on shipping. Got question? Email us now.</em><br></p>
+                <%}%>
+              </div>
+
+              <div id="productDescriptionWrapper" class="collapse">
+                <label for="body_html">Description</label>
+                <textarea class="form-control" rows="5" id="productDescription"></textarea>
+                <input name="body_html" type="hidden" />
+              </div>
+
+            </div>
+
+            <div class="sr-only form-group">
+              <label for="vendor">Vendor</label>
+              <input type="text" class="input-lg form-control" name="vendor" id="vendor" value="Gearment">
+            </div>
+
+            <div class="form-group">
+              <label for="color">Collection (optional)</label>
+              <div class="load-collection-option">
+                <input type="text" class="input-lg form-control"
+                       name="collection"
+                       id="collection" />
+                <!-- Can not save collection info user must call api -->
+                <div class="load-collection-here"></div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="tags">Tags (optional)</label>
+              <input type="text" class="input-lg form-control" name="tags" data-role="tagsinput"
+                     value="<%= _.get(getSave, 'savingTags', '') %>"
+              >
+            </div>
+
+            <div class="form-group">
+              <div class="checkbox">
+                <span>Sales channels visibility</span>
+                <label style="float:right">
+                  <input name="publish" type="checkbox"
+                    <%= (_.get(getSave, 'data.checked', 'on') === 'on') ? 'checked' : '' %>
+                  />
+                  Online store
+                </label>
+              </div>
+            </div>
+
+            <hr>
+            <div class="form-group">
+              <a data-toggle="collapse" href="#collapse1">SEO optimization (optional)</a>
+              <div id="collapse1" class="collapse">
+                <div  class="panel-group">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h5 class="panel-title">
+                        <span>Search engine listing preview</span>
+
+                      </h5>
+                      <p style="margin-top:15px">Add a description to see how this product might appear in a search engine listing.</p>
+                    </div>
+                    <div class="panel-body">
+                      <div class="form-group">
+                        <label for="metafields_global_title_tag">Page title</label>
+                        <input type="text"
+                               class="input-lg form-control"
+                               name="metafields_global_title_tag"
+                               value="<%=_.get(getSave, 'data.metafields_global_title_tag', '')%>"
+                               id="metafields_global_title_tag">
+
+                      </div>
+
+                      <div class="form-group">
+                        <label for="metafields_global_description_tag">Meta description</label>
+                        <textarea class="input-lg form-control"
+                                  name="metafields_global_description_tag"
+                                  id="metafields_global_description_tag"
+                        ><%=_.get(getSave, 'data.metafields_global_description_tag', '')%></textarea>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="handle">URL and handle</label>
+                        <div class="input-group">
+                          <span style="font-size:16px" class="input-lg input-group-addon">/products/</span>
+                          <input type="text" class="input-lg form-control" name="handle"
+                                 value="<%=_.get(getSave, 'data.handle', '')%>"
+                                 id="handle"
+                          >
+                        </div>
+
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+
+            <div class="form-group">
+              <div class="btn-group btn-group-justified">
+                <!--<a class="back-step-1 btn btn-default">-->
+                <!--<i class="fa fa-backward" aria-hidden="true"></i>-->
+                <!--Back to Design-->
+                <!--</a>-->
+
+                <%if(getSave){%>
+                <a data-id="<%=_.get(getSave, 'id', '')%>" data-toggle="modal" type="button" id="update-current-settings" class="btn btn-warning">
+                  <i class="fa fa-check" aria-hidden="true"></i>
+                  Update Settings
+                </a>
+                <%}%>
+
+                <a data-toggle="modal" data-target="#mySavingModal" type="button" class="saving btn btn-primary">
+                  <i class="fa fa-save" aria-hidden="true"></i>
+                  <%=(getSave ? 'Create New Settings' : 'Save Settings')%>
+                </a>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="bulk-upload-notification bulk-upload-item" style="display: none">
+                <div class="panel panel-default">
+                  <!-- Default panel contents -->
+                  <div class="panel-heading">Bulk upload info</div>
+                  <div class="panel-body">
+                    <div class="bulk-upload-design-item col-xs-12">
+                      <div class="col-xs-4">
+                        <img class="img-thumbnail" src="http://img.gearment.com/bjM55MKCjN6x3ftO18b9V_mPf8A=/fit-in/320x320/a6a4cfae0907472c9022e1a1848f2e88"/>
+                      </div>
+                      <div class="col-xs-8">
+                        <div class="form-group">
+                          <input type="text" class="allprice form-control" value="This is title">
+                        </div>
+                        <div class="form-group">
+                          <textarea class="form-control"> This is desc </textarea>
+                        </div>
+                        <div class="upload-progress"></div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <%if(showSettings === false){%>
+            <div class="btn-group btn-group-justified">
+              <!--<a class="btn btn-danger btn-block btn-lg"-->
+              <!--type="button"-->
+              <!--onClick="$('#chooseDesignModal').modal('show')"-->
+              <!--&gt;-->
+              <!--<span class="glyphicon glyphicon-picture" aria-hidden="true"></span>-->
+              <!--Quick Change Design-->
+              <!--</a>-->
+
+
+              <a type="button"
+                 id="post-button"
+                 class="ready-post-button btn btn-success btn-block btn-lg"
+                 style="margin-top: 10px"
+              >
+                <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                Post products
+              </a>
+            </div>
+            <%}%>
+          </form>
+        </div>
+        <div class="col-md-6">
+          <span class="sr-only url-render"></span>
+          <span class="sr-only choose-which">choose-front</span>
+
+          <div class="panel-group" id="accordion">
+            <%if(_.get(getSave, 'savingItems')){%>
+            <% _.each(getSave.savingItems ,function(item){ %>
+            <div class="ready-to-post panel panel-default render-product-id-<%= item.itemID %>">
+              <span class="sr-only materialId"><%= item.itemID %></span>
+              <span class="sr-only frontImg active-image"><%= _.get(materialImageKey[item.itemID], "image.frontimg") %></span>
+              <span class="sr-only backImg"><%= _.get(materialImageKey[item.itemID], "image.backimg") %></span>
+              <span class="sr-only hideTop"><%= _.get(materialConfigKey[item.itemID], 'top') %></span>
+              <span class="sr-only hideLeft"><%= _.get(materialConfigKey[item.itemID], 'left') %></span>
+              <span class="sr-only hideBackTop"><%= _.get(materialBackConfigKey[item.itemID], 'top') %></span>
+              <span class="sr-only hideBackLeft"><%= _.get(materialBackConfigKey[item.itemID], 'left') %></span>
+              <div class="panel-heading">
+                <div class="media">
+                  <div class="media-left">
+                    <img class="front-image image-is-selected" src="" class="media-object">
+                    <img class="back-image sr-only" src="" class="media-object">
+                    <p class="variant-count"><strong></strong> variants</p>
+                  </div>
+                  <div class="media-body">
+                    <h4 class="media-heading">
+                      <a data-toggle="" data-parent="#accordion" remove-href="#mockup<%= item.itemID %>"><%= item.itemName %></a></h4>
+                    <p><ul class="style-color-selector">
+                      <% _.each(item.itemColor, function(color) { %>
+                      <li class="js-preview-color" id="color-id-<%= color.id %>">
+                        <span class="sr-only render-color-id"><%= item.itemID %><%= color.id %></span>
+                        <span class="sr-only render-color-name"><%= color.name %></span>
+                        <a href="#">
+                          <span class="select-color-mockup <% if (item.itemDefault == color.value ) {%>is-default-color<%}%>" style="background-color:<%= color.value %>"></span>
+                        </a>
+                      </li>
+                      <% }) %>
+                    </ul></p>
+                    <div class="set-price form-group">
+                      <label class="control-label" for="email">SELL FOR</label>
+                      <input type="text" class="allprice form-control" value="<%= item.itemPrice %>">
+                    </div>
+                    <div class="min-price"><span>MINIMUM PRICE </span><span class="find-min">$<%= item.itemMin %></span></div>
+                    <!--<div class="min-price"><span>MINIMUM PRICE </span><p>$<%= item.itemMin %></p></div>-->
+                    <div class="sr-only profit">
+                          <span>PROFIT <i data-toggle="tooltip"
+                                          title="INCLUDES ALL PROCESSING FEES. ADDITIONAL FEES MAY APPLY WHEN PAYING OUT YOUR PROFITS OUTSIDE US."
+                                          class="fa fa-info-circle"></i></span>
+                      <p class="estimate-profit"></p>
+                    </div>
+                    <p class="check-min-price"></p>
+
+                  </div>
+
+                </div>
+              </div>
+              <div id="mockup<%= item.itemID %>" class="panel-collapse collapse">
+                <div class="panel-body">
+                  <form class="post-product-shopify">
+
+                    <div class="range-size-price">
+                      <table class="table" id="size-table">
+                        <tbody>
+                        <tr>
+                          <td><input id="select-all" type="checkbox" checked></td>
+                          <td>Size</td>
+                          <td>Base Cost</td>
+                          <td>Price</td>
+                          <td>Profit</td>
+                        </tr>
+                        <% _.each(materialData,function(material) { %>
+                        <% if(material.id == item.itemID) { %>
+                        <% for (var i=0 ; i < material.size[0].size.length ; i++) { %>
+                        <tr class="checked-or-not size-price-checked">
+                          <td><input class="select-one" type="checkbox" checked></td>
+                          <td class="each-size-name" style="font-weight:bold;"><%= material.size[0].size[i].size %></td>
+                          <td class="basecost">$<%= material.size[0].size[i].price %></td>
+                          <td>$ <input style="width:50px;text-align:center;height:30px" class="each-size-value same-price" type="text" class="form-control" name="size<%= material.size[0].size[i].size %>"></td>
+                          <td class="profit"></td>
+                        </tr>
+                        <% } %>
+                        <% } %>
+                        <% }) %>
+                        </tbody>
+                      </table>
+
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <% }) %>
+            <% } else { %>
+            <div class="ready-to-post panel panel-default render-product-id-<%= materialData[0].id %>">
+              <span class="sr-only materialId"><%= materialData[0].id %></span>
+              <span class="sr-only frontImg active-image"><%= materialData[0].image[0].image.frontimg %></span>
+              <span class="sr-only backImg"><%= materialData[0].image[0].image.backimg %></span>
+              <span class="sr-only hideTop"><%= materialData[0].config[0].top %></span>
+              <span class="sr-only hideLeft"><%= materialData[0].config[0].left %></span>
+              <span class="sr-only hideBackTop"><%= materialData[0].backconfig[0].top %></span>
+              <span class="sr-only hideBackLeft"><%= materialData[0].backconfig[0].left %></span>
+              <div class="panel-heading">
+                <div class="media">
+                  <div class="media-left">
+                    <img class="front-image image-is-selected" src="" class="media-object">
+                    <img class="back-image sr-only" src="" class="media-object">
+                    <p class="variant-count"><strong></strong> variants</p>
+                  </div>
+                  <div class="media-body">
+                    <h4 class="media-heading">
+
+                      <a data-toggle="" data-parent="#accordion" remove-href="#mockup<%= materialData[0].id %>"><%= materialData[0].name %></a></h4>
+                    <p><ul class="style-color-selector">
+                      <li class="js-preview-color" id="color-id-<%= materialData[0].id %>0">
+                        <span class="sr-only render-color-id"><%= materialData[0].id %>0</span>
+                        <span class="sr-only render-color-name"><%= materialData[0].color[0].color[0].name %></span>
+                        <a href="#">
+                          <span class="select-color-mockup is-default-color" style="background-color:<%= materialData[0].color[0].color[0].value %>"></span>
+                        </a>
+                      </li>
+                    </ul></p>
+                    <div class="set-price form-group">
+                      <label class="control-label" for="email">SELL FOR</label>
+                      <input type="text" class="allprice form-control" value="<%= materialData[0].cost[0].minPay %>">
+                    </div>
+                    <div class="min-price"><span>MINIMUM PRICE </span><span class="find-min"></span></div>
+                    <div class="sr-only profit">
+                      <span>PROFIT <i data-toggle="tooltip"
+                                      title="INCLUDES ALL PROCESSING FEES. ADDITIONAL FEES MAY APPLY WHEN PAYING OUT YOUR PROFITS OUTSIDE US."
+                                      class="fa fa-info-circle"></i></span>
+                      <p class="estimate-profit"></p>
+                    </div>
+                    <p class="check-min-price"></p>
+
+                  </div>
+
+                </div>
+              </div>
+              <div id="mockup<%= materialData[0].id %>" class="panel-collapse collapse">
+                <div class="panel-body">
+                  <form class="post-product-shopify">
+
+                    <div class="range-size-price">
+                      <table class="table" id="size-table">
+                        <tbody>
+                        <tr>
+                          <td><input id="select-all" type="checkbox" checked></td>
+                          <td>Size</td>
+                          <td>Base Cost</td>
+                          <td>Price</td>
+                          <td>Profit</td>
+                        </tr>
+                        <% for (var i=0 ; i < materialData[0].size[0].size.length ; i++) { %>
+                        <tr class="checked-or-not size-price-checked">
+                          <td><input class="select-one" type="checkbox" checked></td>
+                          <td class="each-size-name" style="font-weight:bold;"><%= materialData[0].size[0].size[i].size %></td>
+                          <td class="basecost">$<%= materialData[0].size[0].size[i].price %></td>
+                          <td>$ <input style="width:50px;text-align:center;height:30px" class="each-size-value same-price" type="text" class="form-control" name="size<%= materialData[0].size[0].size[i].size %>"></td>
+                          <td class="profit"></td>
+                        </tr>
+                        <% } %>
+                        </tbody>
+                      </table>
+
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Choose material-->
+<%- partial ('modal-choose-material.ejs') %>
+
+<!-- Modal upload a new design-->
+<%- partial ('modal-upload-design.ejs') %>
+
+<!-- Modal choose design-->
+<%- partial ('modal-choose-design-gallery.ejs') %>
+
+<!-- Modal Design Missing Error-->
+<%- partial ('modal-design-missing-error.ejs') %>
+
+<!-- Modal Save Settings-->
+<%- partial ('modal-save-settings.ejs') %>
+
+<!-- Modal Load Save Settings -->
+<%- partial ('modal-load-save-settings.ejs') %>
+
+<style>
+  #imageeditor button{
+    margin-bottom:2px;
+  }
+</style>

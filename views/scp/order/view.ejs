@@ -1,0 +1,197 @@
+<div class="se-pre-con"></div>
+<div class="container" id="seller-page">
+  <aside class="sidenav">
+    <%- partial ('../menu-side.ejs') %>
+  </aside>
+
+  <div class="main-content">
+    <div class="head-content">
+      <a class="menu-button" href="#">
+        <div class="menu-arrow aright text-center">
+          <i class="fa fa-chevron-right pull-left"></i>
+        </div>
+      </a>
+      <a class="menu-button" href="#">
+        <div class="sr-only menu-arrow aleft text-center">
+          <i class="fa fa-chevron-left pull-left"></i>
+        </div>
+      </a>
+      <div class="menu-title">
+        <h4><span class="name-param">Order</span></h4>
+      </div>
+    </div>
+
+    <div class="detail-content" id="order-view-page">
+      <ul class="breadcrumb">
+        <li><a href="/scp"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="/scp/order">Order</a></li>
+        <li class="active">Details</li>
+      </ul>
+
+      <div class="fix-section">
+        <div class="col-sm-8">
+          <div class="panel panel-default">
+            <div class="panel-body panel-title">Order details - <%= _.get(foundOrder, 'order_name', '') ? _.get(foundOrder, 'order_name', '').replace('sup', '') : '' %>
+            <span class="sr-only orderID"><%= foundOrder.id %></span>
+            <span class="sr-only userId"><%= req.session.user.id %></span>
+
+            </div><hr>
+            <div class="panel-body list-order-item">
+              <% _.each(foundOrder.line_items,function(item){ %>
+              <div class="media orderItem">
+                <div class="media-left">
+                  <img class="media-object variant-image not-fetched"
+                       data-variant_id="<%= item.variant_id %>"
+                       src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PCEtLQpTb3VyY2UgVVJMOiBob2xkZXIuanMvNjR4NjQKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNWFhY2ZhNTFlYiB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1YWFjZmE1MWViIj48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSIxMy40Njg3NSIgeT0iMzYuNSI+NjR4NjQ8L3RleHQ+PC9nPjwvZz48L3N2Zz4=">
+                </div>
+                <div class="media-body">
+                  <h4 class="media-heading"><%= item.title %>
+                  <% if(foundOrder.tracking=='pending'){%> - <a class="updateOrderItem" href="#" style="font-size:15px;" data-toggle="modal" data-target="#editItemModal">Edit</a><%}%>
+
+                  </h4>
+                  <span class="sr-only item-title"><%= item.variant_title %></span>
+                  <span class="sr-only item-sku"><%= item.sku %></span>
+                  Style: <span class="item-style"><%= item.variant_title.split(' / ')[0] %></span><br>
+                  Color: <span class="item-color"><%= item.variant_title.split(' / ')[1] %></span><br>
+                  Size: <span class="item-size"><%= item.variant_title.split(' / ')[2] %></span><br>
+                </div>
+
+                <div class="media-right text-right">
+                  $<span class="item-price"></span>
+                </div>
+
+                <div class="media-right text-right media-price-section">
+                  $<span class="item-basecost"><%= item.basecost %></span> x <span class="item-quantity"><%= item.quantity %></span>
+                </div>
+
+
+
+
+              </div><hr>
+              <% }) %>
+              <div class="media">
+                <div class="total-paid media-right text-right">
+                  $<span class="subtotal"></span><br>
+                  $<span class="shippingfee"><%= parseFloat(foundOrder.shipping_fee).toFixed(2) %></span><br>
+                  $<span class="total"></span><br>
+                </div>
+
+                <div class="media-left"></div>
+                <div class="media-body"></div>
+                <div class="media-right text-right total-title">
+                  <span>Subtotal:</span><br>
+                  <span>Shipping cost:</span><br>
+                  <span>Total:</span><br>
+                </div>
+
+              </div>
+            </div>
+
+            <% if(foundOrder.tracking=='pending'){%>
+            <div class="panel-footer">
+              <div class="text-center text-primary">
+                <a href="#" class="btn btn-default add-remove-item" data-toggle="modal" data-target="#addRemoveModal" disabled>Add/Remove Products</a>
+              </div>
+            </div>
+            <% } %>
+
+            <div class="panel-footer">
+            <% if(foundOrder.tracking !== 'pending') { %>
+              <div class="text-center text-primary"><h5>Order was <%=foundOrder.tracking%> by Gearment</h5></div>
+            <% } else { %>
+              <div class="text-center text-success"><h5>You can edit order now</h5></div>
+            <% } %>
+            </div>
+          </div>
+          <!--abc-->
+          <div class="history-timeline">
+            <h3>Order History</h3>
+            <%- partial ('order_history.ejs') %>
+          </div>
+          <!--end-->
+
+          <% if (foundFulfill.length > 0) { _.each(foundFulfill, function(fulfill) { %>
+          <div class="panel panel-default">
+            <div class="panel-body panel-title">Fulfillments Order: #<%= foundOrder.id %></div><hr>
+            <div class="panel-body">
+              <div class="fulfillment-detail">
+                <span class="sr-only fulfillmentId"><%= fulfill.id %></span>
+                <div class="fulfillment-row">
+                  <div class="fulfillment-column col-sm-6">
+                    <p style="color:#929292">Carrier</p>
+                    <p><%= fulfill.tracking_company %></p>
+                  </div>
+                  <div class="fulfillment-column col-sm-6">
+                    <p style="color:#929292">Tracking Number</p>
+                    <p><a href="<%= fulfill.tracking_url %>" target="_blank"><%= fulfill.tracking_number %></a></p>
+                  </div>
+                </div>
+                <div class="fulfillment-row col-sm-12">
+                  <p style="color:#929292">Items</p>
+                  <% _.each(fulfill.line_items,function(item){ %>
+                  <p><%= item.quantity %> x <%= item.name %></p>
+                  <% }) %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% }) }  %>
+        </div>
+        <div class="col-sm-4">
+          <div class="panel panel-default">
+
+            <div class="panel-body">
+              <h4>Customer info</h4>
+              <a href="#" data-toggle="tooltip" data-placement="top" title="<%= foundOrder.email %>"><%= foundOrder.name %></a>
+              <p><%= _.get(foundOrder.customer,'orders_count') %> orders</p>
+            </div><hr>
+            <div class="panel-body">
+              <h4>Email Contact
+                <% if(foundOrder.tracking == 'pending') {%>
+                <a href="#" style="font-size:14px" data-toggle="modal" data-target="#editEmailModal" class="pull-right">Edit</a>
+                <% } %>
+              </h4>
+              <p><%= foundOrder.email %></p>
+            </div><hr>
+            <div class="panel-body">
+              <address>
+                <h4>Shipping Address
+                  <% if(foundOrder.tracking == 'pending') {%>
+                  <a href="#" style="font-size:14px" data-toggle="modal" data-target="#editAddressModal" class="pull-right">Edit</a>
+                  <% } %>
+                </h4>
+                <strong><%= foundOrder.shipping_address.name %></strong><br>
+                <%= foundOrder.shipping_address.address1 %><br>
+                <%= foundOrder.shipping_address.city %>, <%= foundOrder.shipping_address.province %> <%= foundOrder.shipping_address.zip %><br>
+                <%= foundOrder.shipping_address.country %>
+              </address>
+            </div><hr>
+            <div class="panel-body">
+              <address>
+                <h4>Billing Address</h4>
+                <p class="shipping-address">
+                <strong><%= foundOrder.billing_address.name %></strong><br>
+                <%= foundOrder.billing_address.address1 %><br>
+                <%= foundOrder.billing_address.city %>, <%= foundOrder.billing_address.province %> <%= foundOrder.billing_address.zip %><br>
+                <%= foundOrder.shipping_address.country %>
+                </p>
+              </address>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<% if(foundOrder.tracking == 'pending') { %>
+
+<%- partial ('modal/edit_address_modal.ejs') %>
+<%- partial ('modal/edit_email_modal.ejs') %>
+<%- partial ('modal/edit_item_modal.ejs') %>
+<%- partial ('modal/add_remove_modal.ejs') %>
+<!--<%- partial ('modal/refund_modal.ejs') %>-->
+
+<% } %>

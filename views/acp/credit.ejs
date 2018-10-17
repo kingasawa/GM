@@ -1,0 +1,61 @@
+<div class="se-pre-con"></div>
+<div class="container" id="admin-page">
+
+
+  <div style="margin-left:0" class="main-content">
+    <div class="head-content">
+      <a class="menu-button" href="#">
+        <div class="menu-arrow aright text-center">
+          <i class="fa fa-chevron-right pull-left"></i>
+        </div>
+      </a>
+      <a class="menu-button" href="#">
+        <div class="sr-only menu-arrow aleft text-center">
+          <i class="fa fa-chevron-left pull-left"></i>
+        </div>
+      </a>
+      <div class="menu-title">
+        <h4><span class="name-param">Credit</span></h4>
+      </div>
+    </div>
+
+    <div class="detail-content" id="order-page">
+
+
+      <div class="alert alert-success">
+        From <strong>2017-04-01 13:03:07+00</strong> To <strong>2017-08-11 13:25:26+00</strong>
+      </div>
+
+      <table style="background:#fff" class="display table-responsive table table-hover" id="credit-table">
+        <div class="form-group">
+          <select class="form-control" style="width: 50%" id="shop-filter" >
+            <option>All Stores</option>
+            <%_.each(shopData, (shop) => {%>
+            <option><%=shop%></option>
+            <%})%>
+          </select>
+        </div>
+
+        <thead>
+        <tr>
+          <th>Username</th>
+          <th>Shop</th>
+          <th>Amount</th>
+          <th>Orders</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% _.each(credit,function(item) { %>
+          <tr>
+            <td><a href="/credit/detail?user=<%= item.owner %>"><%= item.username %></a></td>
+            <td><%= item.shop %></td>
+            <td><%= item.amount %></td>
+            <td><% _.each(item.orders,function(order){ %> <%= order+', ' %> <% }) %></td>
+          </tr>
+        <% }) %>
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+</div>

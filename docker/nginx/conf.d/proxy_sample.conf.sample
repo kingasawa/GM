@@ -1,0 +1,16 @@
+server {
+    listen       443 ssl spdy;
+    server_name  img.gearment.com;
+    server_tokens off;
+
+    #include conf.d/content/img_ssl.conf;
+    #access_log  /var/log/nginx/log/$hostname.access.log  main;
+
+    location / {
+        proxy_pass          http://image-service:8000;
+        include conf.d/content/proxy.conf;
+        #include conf.d/content/ws.conf;
+    }
+
+    include conf.d/content/error.conf;
+}

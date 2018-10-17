@@ -1,0 +1,111 @@
+
+<div class="container" id="seller-page">
+  <aside class="sidenav">
+    <%- partial ('menu-side.ejs') %>
+  </aside>
+
+  <div class="main-content">
+    <div class="head-content">
+      <a class="menu-button" href="#">
+        <div class="menu-arrow aright text-center">
+          <i class="fa fa-chevron-right pull-left"></i>
+        </div>
+      </a>
+      <a class="menu-button" href="#">
+        <div class="sr-only menu-arrow aleft text-center">
+          <i class="fa fa-chevron-left pull-left"></i>
+        </div>
+      </a>
+      <div class="menu-title">
+        <h4><span class="name-param">Dashboard</span></h4>
+      </div>
+    </div>
+
+    <div class="detail-content" id="dashboard-page">
+
+      <div class="col-sm-3">
+        <div class="panel panel-default">
+          <div class="panel-heading">Balance</div>
+          <div class="panel-body">
+            $<%=parseFloat(stats.userInfo.balance).toFixed(2)%>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="panel panel-default">
+          <div class="panel-heading">Design</div>
+          <div class="panel-body">
+            <a href="/scp/get_design">View all </a><%=stats.userInfo.design.length%>
+          </div>
+        </div>
+      </div>
+    <div style="clear: both"></div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">Order stats
+              <div id="reportrange" class="btn btn-default">
+                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                <span></span> <b class="caret"></b>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div id="order-report-table" class="order-report-content"></div>
+            </div>
+            <div class="panel-heading" style="font-weight: bold">
+              Total: <span class="order-report-content" id="order-report-total"></span>
+            </div>
+
+          </div>
+
+
+        </div>
+      </div>
+
+  </div>
+
+
+    <!--@TODO show chart later-->
+    <div id="monthlyChart" style="display: none"></div>
+    <!--Hack demo thoi nha-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+    <script>
+      var stats = <%-JSON.stringify(stats)%>;
+
+      console.log(stats);
+      Highcharts.chart('monthlyChart', {
+        chart: {
+          type: 'line'
+        },
+        title: {
+          text: 'Monthly Order'
+        },
+        subtitle: {
+          text: 'Source: gearment.com'
+        },
+        xAxis: {
+            // lam cai nay o trong controller
+          categories: <%-JSON.stringify(categories)%>
+        },
+        yAxis: {
+          title: {
+            text: 'Number of order'
+          }
+        },
+        plotOptions: {
+          line: {
+            dataLabels: {
+              enabled: true
+            },
+            enableMouseTracking: false
+          }
+        },
+        // va cai nay o trong controller xong show ra la xong vi du
+        series: <%-JSON.stringify(series)%>
+      });
+    </script>
+  </div>
+</div>

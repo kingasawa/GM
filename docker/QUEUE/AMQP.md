@@ -1,0 +1,1 @@
+docker run --net=app --restart=always -d --hostname nodeshopis-rabbit --name nodeshopis-rabbit -e RABBITMQ_DEFAULT_USER=nodeshopis -e RABBITMQ_DEFAULT_PASS=nodeshopis2017! -p 8001:15672 rabbitmq:3-management

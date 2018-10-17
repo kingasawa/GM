@@ -1,0 +1,72 @@
+<div class="container-fluid" style="padding-top: 65px">
+  <div>
+    <div class="head-content navbar navbar-default navbar-fixed-top">
+      <div style="padding:10px" class="menu-title">
+        <a href="/scp"><img style="max-width:160px" class="brand-logo" src="/images/lg.png"></a>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <h4>
+        Bulk clone campaign
+      </h4>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Campaign: <b><%=_.get(getSave, 'savingName', '')%></b>
+        </div>
+        <div class="panel-body">
+          <button class="btn btn-default">Upload</button>
+        </div>
+        <div class="panel-footer">Variant: <b><span class="variant-count">0</span></b></div>
+      </div>
+    </div>
+
+    <div class="col-xs-12">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Product Infomation
+        </div>
+        <div class="panel-body">
+          <div class="media">
+            <div class="media-left">
+              <img src="http://img.gearment.com/8FOM7_6eyTn6NOPVl0YlgTEMeoQ=/fit-in/320x320/6fa773d5d67447d4a6011b52cd6c0aa2" class="media-object" style="width:60px">
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading">
+                <div class="input-group">
+                  <span class="input-group-addon">Title</span>
+                  <input id="title" type="text" class="form-control" name="title" placeholder="Product Title">
+                </div>
+              </h4>
+              <p>
+              <div class="input-group">
+                <span class="input-group-addon">URL</span>
+                <input id="url" type="text" class="form-control" name="url" placeholder="Product URL">
+              </div>
+
+              <div class="form-group hidden">
+                <label for="comment">Comment:</label>
+                <textarea class="form-control" rows="2" id="comment"></textarea>
+              </div>
+              </p>
+            </div>
+          </div>
+          <hr>
+          <div class="media">
+            <div class="media-left">
+              <img src="http://img.gearment.com/8FOM7_6eyTn6NOPVl0YlgTEMeoQ=/fit-in/320x320/6fa773d5d67447d4a6011b52cd6c0aa2" class="media-object" style="width:60px">
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading">John Doe</h4>
+              <p>Lorem ipsum...</p>
+            </div>
+          </div>
+        </div>
+        <div class="panel-footer">Product: <b><span class="product-count">0</span></b></div>
+      </div>
+    </div>
+  </div>
+  <%- partial ("modal-upload-design") %>
+</div>
+

@@ -1,0 +1,162 @@
+<div class="se-pre-con"></div>
+<div class="container" id="seller-page">
+  <aside class="sidenav">
+    <%- partial ('menu-side.ejs') %>
+  </aside>
+
+  <div class="main-content">
+    <div class="head-content">
+      <a class="menu-button" href="#">
+        <div class="menu-arrow aright text-center">
+          <i class="fa fa-chevron-right pull-left"></i>
+        </div>
+      </a>
+      <a class="menu-button" href="#">
+        <div class="sr-only menu-arrow aleft text-center">
+          <i class="fa fa-chevron-left pull-left"></i>
+        </div>
+      </a>
+      <div class="menu-title">
+        <h4><span class="name-param">Balance</span></h4>
+      </div>
+    </div>
+
+    <div class="detail-content" id="balance-page">
+      <ul class="breadcrumb">
+        <li><a href="/scp"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active">Balance</li>
+      </ul>
+
+      <div class="width1000">
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="balance-title"><i class="fa fa-bank"></i> Balance
+              <h2>$<%= foundUser.balance %></h2>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="col-xs-2"><img style="max-width:100px" src="https://plus.teezily.com/assets/picto/addmoney-c62aec37fd53e34fc83b6eed0e37f70a.svg"></div>
+            <div class="col-xs-10">
+              <form id="add-balance">
+                <div class="form-group">
+                  <label for="balance">Add money to Balance</label>
+                  <select name="balance">
+                    <option value="1">$1</option>
+                    <option value="2">$2</option>
+                    <option value="100">$100</option>
+                    <option value="200">$200</option>
+                    <option value="500">$500</option>
+                    <option value="1000">$1000</option>
+                  </select>
+                </div>
+                <label class="radio-inline"><input type="radio" name="type" value="creditcard"><i class="fa fa-credit-card"></i> Credit card</label>
+                <label class="radio-inline"><input type="radio" name="type" value="paypal" checked><i class="fa fa-paypal"></i> Paypal</label>
+                <p style="margin-top:15px;"><input type="submit" class="btn btn-info" value="Add money"></p>
+              </form>
+            </div>
+          </div>
+          <% if (foundPayment.length > 0) { %>
+          <div class="panel-footer">
+            <table class="table">
+              <thead>
+              <tr>
+                <th>ID</th>
+                <th>Method</th>
+                <th>Total</th>
+                <th>Date</th>
+              </tr>
+              </thead>
+              <tbody>
+
+              <% _.each(foundPayment,function(payment){ %>
+              <% if(payment.status == 'paypal') { %>
+              <tr>
+                <td><%= payment.id %></td>
+                <td><%= payment.detail.payer.payment_method %></td>
+                <td>$<%= payment.detail.transactions[0].amount.total %></td>
+                <td><%- payment.createdAt.toDateString() %></td>
+              </tr>
+              <% } else { %>
+              <tr>
+                <td><%= payment.id %></td>
+                <td>Credit Card</td>
+                <td>$<%= parseFloat(payment.detail.amount/100).toFixed(2) %></td>
+                <td><%- payment.createdAt.toDateString() %></td>
+              </tr>
+              <% } %>
+              <% })%>
+              </tbody>
+            </table>
+          </div>
+          <% } %>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="enterCreditcardModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Credit Card</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="number">Card Number</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="number" name="number" value="4242424242424242">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="expired">Expiry Date</label>
+            <div class="col-sm-10">
+              <select name="exp_month">
+                <option value="12">12</option>
+                <% for(let m=1;m<13;m++) {%>
+                <option value="<%= m %>"><%= m %></option>
+                <%}%>
+              </select>
+              <select name="exp_year">
+                <option value="2018">2018</option>
+                <% for(let y=2017;y<2028;y++) {%>
+                <option value="<%= y %>"><%= y %></option>
+                <%}%>
+              </select>
+            </div>
+
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="cvc">Security Code</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="cvc" name="cvc" value="123">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="amount">Amount</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="amount" name="amount" step="any" min="1">
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>

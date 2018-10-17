@@ -1,0 +1,148 @@
+
+<div class="container" id="admin-page">
+
+  <aside class="sidenav">
+    <%- partial ('menu-side.ejs') %>
+  </aside>
+
+  <div class="main-content">
+
+    <div class="head-content">
+      <a class="menu-button" href="#">
+        <div class="menu-arrow aright text-center">
+          <i class="fa fa-chevron-right pull-left"></i>
+        </div>
+      </a>
+      <a class="menu-button" href="#">
+        <div class="sr-only menu-arrow aleft text-center">
+          <i class="fa fa-chevron-left pull-left"></i>
+        </div>
+      </a>
+      <div class="menu-title">
+        <h4><span class="name-param">Product Sample</span></h4>
+
+      </div>
+      <!--<button type="button" class="btn btn-primary">Add product sample</button>-->
+    </div>
+
+    <div class="detail-content" id="product-page">
+      <ul class="breadcrumb">
+        <li><a href="/acp"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="/acp/mockup?p=sample">Mockup</a></li>
+        <li class="active">Edit Mockup</li>
+      </ul>
+
+      <div id="view-mockup" class="panel panel-default">
+      <div class="panel-heading">Edit mockup<strong></strong></div>
+      <div class="panel-body">
+        <form class="form-horizontal" id="edit-old-mockup">
+          <input class="sr-only" name="id" value="<%= foundMockup.id %>">
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="brand">Brand</label>
+            <div class="col-sm-10">
+              <input type="text" class="input-lg form-control" value="<%= foundMockup.brand %>" name="brand" id="brand">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="name">Name</label>
+            <div class="col-sm-10">
+              <input type="text" class="input-lg form-control" value="<%= foundMockup.name %>" name="name" id="name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="cost">Base Cost</label>
+            <div class="col-sm-10">
+              <input type="text" class="input-lg form-control" value="<%= foundMockup.cost[0].cost %>" name="cost" id="cost">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="minPay">Recommend Price</label>
+            <div class="col-sm-10">
+              <input type="text" class="input-lg form-control" value="<%= foundMockup.cost[0].minPay %>" name="minPay" id="minPay">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="description">Description</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" rows="5" id="richText" name="description"><%= foundMockup.description %></textarea>
+            </div>
+          </div>
+          <hr>
+
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="color">Color</label>
+            <div class="col-sm-10">
+              <select name="color" class="selectoption" data-width="400px" multiple data-selected-text-format="count > 3" id="color">
+                <% _.each(optionColor, function(color) { %>
+                <option
+                  <%for (var c=0;c<foundMockup.color[0].color.length;c++) {if (foundMockup.color[0].color[c].name == color.name) { %> selected <% }} %>
+                  style="background:<%= color.value %>;color:#FFF;text-shadow:2px 1px 2px #7d7d7d;" value="<%= color.value %>"><%= color.name %></option>
+                <% }) %>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="size">Size</label>
+
+            <div style="max-width:500px" class="live-add-size col-sm-10">
+              <!--<div class="pull-right">-->
+                <!--<span style="margin-right:70px">size price</span>-->
+                <!--<span style="margin-right:40px">shipping fee</span>-->
+              <!--</div><hr>-->
+              <% _.each(optionSize, function(size) { %>
+
+                <div class="data-size checkbox">
+                  <label><input <% for(var i=0;i<foundMockup.size[0].size.length;i++) {
+                      if (foundMockup.size[0].size[i].size.indexOf(size.value) >= 0){ %>checked="checked" dataprice="<%= foundMockup.size[0].size[i].price %>"<% } } %> type="checkbox" name="size" value="<%= size.value %>"><%= size.name %></label>
+                  <!--<input type="text" class="pull-right" name="shipfee">-->
+                  <input style="margin-right:5px" type="text" class="pull-right" name="pricesize" <% for(var i=0;i<foundMockup.size[0].size.length;i++) { if (foundMockup.size[0].size[i].size.indexOf(size.value) >= 0){ %>value="<%= foundMockup.size[0].size[i].price %>"<% } } %>>
+
+                </div>
+
+              <% }) %>
+              <p style="margin-top:15px"><a data-toggle="collapse" data-target="#show-add-size" href="#"><i class="fa fa-plus"></i> Add more size</a></p>
+              <div class="collapse" id="show-add-size">
+                <input type="text" class="col-xs-12 col-sm-3 input-lg" name="size-name" id="size-name" placeholder="Name">
+                <input type="text" class="col-xs-12 col-sm-3 input-lg" name="size-value" id="size-value" placeholder="Value">
+                <input type="text" class="col-xs-12 col-sm-3 input-lg" name="size-price" id="size-price" placeholder="Price">
+                <a class="btn-add-size col-xs-12 col-sm-3 btn btn-default"><i class="fa fa-plus"></i> Add</a>
+
+              </div>
+            </div>
+          </div>
+
+          <input class="sr-only" name="front-img" value="<%= foundMockup.image[0].image.frontimg %>">
+          <input class="sr-only" name="back-img" value="<%= foundMockup.image[0].image.backimg %>">
+
+        </form><hr>
+
+
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="front-img">Front Image</label>
+          <div class="col-xs-10">
+            <div class="col-xs-12 col-sm-6"><form style="background:url(<%= foundMockup.image[0].image.frontimg %>);background-size: cover" action="/uploader" class="dropzone" id="frontImage"></form></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="back-img">Back Image</label>
+          <div class="col-xs-10">
+            <div class="col-xs-12 col-sm-6"><form style="background:url(<%= foundMockup.image[0].image.backimg %>);background-size: cover"action="/uploader" class="dropzone" id="backImage"></form></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="panel-footer">
+        <button type="submit" class="update-mockup btn btn-default"><i class="fa fa-refresh"></i> Update</button>
+      </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+

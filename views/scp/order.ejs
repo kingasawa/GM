@@ -1,0 +1,70 @@
+<!-- NOT USE -->
+<div class="container" id="seller-page">
+  <aside class="sidenav">
+    <%- partial ('menu-side.ejs') %>
+  </aside>
+
+  <div class="main-content">
+    <div class="head-content">
+      <a class="menu-button" href="#">
+        <div class="menu-arrow aright text-center">
+          <i class="fa fa-chevron-right pull-left"></i>
+        </div>
+      </a>
+      <a class="menu-button" href="#">
+        <div class="sr-only menu-arrow aleft text-center">
+          <i class="fa fa-chevron-left pull-left"></i>
+        </div>
+      </a>
+      <div class="menu-title">
+        <h4><span class="name-param">Order</span></h4>
+      </div>
+    </div>
+
+    <div class="detail-content" id="order-page">
+      <ul class="breadcrumb">
+        <li><a href="/scp"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active">Order</li>
+      </ul>
+
+    <div class="width1000">
+
+
+      <table style="background:#fff" class="table table-hover new-order-hook" id="order-table">
+        <thead>
+        <tr>
+          <th><input type="checkbox" class="choose-all-order"></th>
+          <th>Order ID</th>
+          <th>Shop</th>
+          <th>Date</th>
+          <th>Customer</th>
+          <th>Status</th>
+          <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% _.each(foundOrder, function(order) { %>
+        <tr id="order-id-<%= order.id %>">
+          <td><input type="checkbox" class="choose-order-id"></td>
+          <td class="order-id"><a href="/scp/order?view=<%= order.orderid %>&id=<%= order.id %>&name=<%= order.shop %>">#<%= order.id %></a></td>
+          <td class="order-shop"><%= order.shop.replace('.myshopify.com','') %></td>
+          <td class="order-date"><%= order.createdAt.toDateString().slice(4) %></td>
+          <td class="order-name"><%= order.name %></td>
+          <td class="order-financial_status"><span class="badge"><%= order.financial_status %></span></td>
+          <td class="order-total_price"><%= order.total_item_basecost %> <%= order.currency %></td>
+        </tr>
+        <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+
+
+
+
+    </div>
+
+
+
+  </div>
+</div>

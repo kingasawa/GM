@@ -1,0 +1,107 @@
+<div id="create-label-page">
+
+  <div style="padding:30px" class="col-sm-7">
+    <form id="get-service">
+      <h3>Order Info</h3>
+      <div style="background: #fff;padding:20px" class="shipping-order">
+        <div class="form-group">
+          <label for="company">Company</label>
+          <input type="text" class="form-control" id="company" name="company" value="Gearment">
+        </div>
+        <div class="form-group">
+          <label for="order">Order ID</label>
+          <input type="text" class="form-control" id="order" name="order" >
+        </div>
+        <button type="button" class="btn btn-info get-shipping-address">Get Shipping Information</button>
+      </div>
+      <h3>Shipping Address</h3>
+
+
+      <div style="background: #fff;padding:20px" class="shipping-address">
+        <div class="form-group">
+          <label for="first_name">First name</label>
+          <input type="text" class="form-control" id="first_name" name="first_name" >
+        </div>
+        <div class="form-group">
+          <label for="last_name">Last name</label>
+          <input type="text" class="form-control" id="last_name" name="last_name" >
+        </div>
+        <div class="form-group">
+          <label for="address1">Address</label>
+          <input type="text" class="form-control" id="address1" name="address1" >
+        </div>
+        <div class="form-group">
+          <label for="address1">Address 2</label>
+          <input type="text" class="form-control" id="address2" name="address2" >
+        </div>
+        <div class="form-group">
+          <label for="city">City</label>
+          <input type="text" class="form-control" id="city" name="city" >
+        </div>
+        <div class="form-group">
+          <label for="country_code">Country</label>
+          <select class="form-control" id="countryList" name="country_code" ></select>
+        </div>
+        <div class="form-group">
+          <label for="province">Province</label>
+          <input type="text" class="form-control" id="province" name="province" >
+        </div>
+        <div class="form-group">
+          <label for="zip">Postal/Zip code</label>
+          <input type="text" class="form-control" id="zip" name="zip" >
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone number</label>
+          <input type="text" class="form-control" id="phone" name="phone" >
+        </div>
+      </div>
+
+    <hr>
+
+    <h3>Shipment parcel</h3>
+    <div style="background: #fff;padding:20px" class="shipping-parcel">
+      <div class="form-group">
+        <label for="length">Length(inches)</label>
+        <input type="text" class="form-control" id="length" name="length" value="10">
+      </div>
+      <div class="form-group">
+        <label for="width">Width(inches)</label>
+        <input type="text" class="form-control" id="width" name="width" value="10">
+      </div>
+      <div class="form-group">
+        <label for="height">Height(inches)</label>
+        <input type="text" class="form-control" id="height" name="height" value="5">
+      </div>
+      <div class="form-group">
+        <label for="weight">Weight(oz)</label>
+        <input type="text" class="form-control" id="weight" name="weight" value="8.01">
+      </div>
+    </div>
+
+
+    <div class="button">
+      <input class="hidden" name="action" value="create_shipment">
+      <button type="submit" class="btn btn-success btn-block btn-lg"><i class="fa"></i> GET SERVICES</button>
+    </div>
+
+    </form>
+  </div>
+
+  <div class="col-sm-5" style="padding:30px">
+    <h3>CHOOSE SERVICE RATE</h3>
+    <form id="buy-label">
+    <div style="background: #fff;padding:20px" class="shipping-rates"></div>
+    <hr>
+    <div class="buy-shipment">
+      <div class="button">
+          <input class="hidden" name="action" value="buy_label">
+          <input class="hidden" name="shipmentid" value="">
+          <button type="submit" class="fade out btn btn-warning btn-block btn-lg"><i class="fa"></i> BUY LABEL</button>
+      </div>
+    </div>
+    </form>
+    <hr>
+    <div class="show-result-url"></div>
+  </div>
+
+</div>

@@ -1,0 +1,56 @@
+
+
+<div style="margin-top:100px" class="container">
+  <div class="fade alert alert-success">
+    Zip code: <strong class="zipcode"></strong>
+  </div>
+
+
+  <p>Example: City = Houston , State = TX</p>
+  <form id="search-zip-code">
+    <div class="form-group">
+      <label for="city">City</label>
+      <input type="text" class="form-control" name="city" id="city" required>
+    </div>
+    <div class="form-group">
+      <label for="state">State</label>
+      <input type="text" class="form-control" name="state" id="state" required>
+    </div>
+
+    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
+  </form>
+</div>
+
+
+
+<script>
+//  $(function() {
+    $('#search-zip-code').on('submit',function(e){
+      $('i.fa').removeClass('fa-search').addClass('fa-spin fa-spinner')
+      e.preventDefault();
+      let data = $(this).serializeObject();
+      socket.post('/demo/zipcode',data, function(result){
+        $('i.fa').addClass('fa-search').removeClass('fa-spin fa-spinner')
+        $('.alert').addClass('in');
+        let zipCode = 'not found'
+        if(result.zip_codes.length > 0){
+          zipCode = result.zip_codes.join();
+        }
+        $('.zipcode').text(zipCode)
+        console.log('result', result);
+      })
+
+    })
+//  })
+</script>
+
+<style>
+  p {
+    color: #8a8a8a;
+    font-weight: 200;
+  }
+  form {
+    background: #fff;
+    padding: 15px
+  }
+</style>

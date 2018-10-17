@@ -1,0 +1,64 @@
+
+<div class="container" id="seller-page">
+  <aside class="sidenav">
+    <%- partial ('menu-side.ejs') %>
+  </aside>
+
+  <div class="main-content">
+    <div class="head-content">
+      <a class="menu-button" href="#">
+        <div class="menu-arrow aright text-center">
+          <i class="fa fa-chevron-right pull-left"></i>
+        </div>
+      </a>
+      <a class="menu-button" href="#">
+        <div class="sr-only menu-arrow aleft text-center">
+          <i class="fa fa-chevron-left pull-left"></i>
+        </div>
+      </a>
+      <div class="menu-title">
+        <h4><span class="name-param">Save Setting</span></h4>
+      </div>
+    </div>
+
+    <div class="detail-content" id="order-page">
+      <ul class="breadcrumb">
+        <li><a href="/scp"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active">save</li>
+      </ul>
+
+      <div class="width1000">
+
+
+        <a href="/product/design?show=settings" class="btn btn-primary" > Create Settings +</a>
+        <table class="table table-hover" id="save-table">
+          <thead>
+          <tr>
+            <th>Save ID</th>
+            <th>Name</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% _.each(foundSave, function(save) { %>
+          <tr id="save-id-<%= save.id %>">
+            <td class="save-id"><%= save.id %></td>
+            <td class="save-name"><%= save.savingName %></td>
+            <td><a type="button" class="btn btn-primary" href="/product/design?show=settings&saveId=<%= save.id %>">Start design</a></td>
+
+          </tr>
+          <% }) %>
+          </tbody>
+        </table>
+      </div>
+
+
+
+
+
+    </div>
+
+
+
+  </div>
+</div>

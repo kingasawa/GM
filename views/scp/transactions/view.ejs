@@ -1,0 +1,100 @@
+
+
+<div class="container" id="seller-page">
+  <aside class="sidenav">
+    <%- partial ('../menu-side.ejs') %>
+  </aside>
+
+  <div class="main-content">
+    <div class="head-content">
+      <a class="menu-button" href="#">
+        <div class="menu-arrow aright text-center">
+          <i class="fa fa-chevron-right pull-left"></i>
+        </div>
+      </a>
+      <a class="menu-button" href="#">
+        <div class="sr-only menu-arrow aleft text-center">
+          <i class="fa fa-chevron-left pull-left"></i>
+        </div>
+      </a>
+      <div class="menu-title">
+        <h4><span class="name-param">Transaction Details</span></h4>
+      </div>
+    </div>
+
+    <div class="detail-content" id="transaction-page">
+      <ul class="breadcrumb">
+        <li><a href="/scp"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="/scp/transactions">Transactions</a></li>
+        <li class="active">Details #<strong><%= foundTransaction.method.slice('0',4).toUpperCase() %><%= foundTransaction.id %></strong> created at <%= sails.moment(foundTransaction.createdAt).format('MM/DD/YYYY') %></li>
+      </ul>
+
+      <div class="transaction-details-section">
+        <div class="row" style="line-height:32px">
+          <div class="col-sm-5">
+            <div class="form-group">
+              <select class="form-control" style="width: 80%" id="details-shop-filter" >
+                <option>All Stores</option>
+                <%_.each(shopArray, (shop) => {%>
+                <option><%=shop%></option>
+                <%})%>
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="total_amount">Total amount: $<span></span></div>
+          </div>
+          <div class="col-sm-2">
+            <div class="transaction_status">Status: <span><%= foundTransaction.status %></span></div>
+          </div>
+          <div class="col-sm-3">
+            <div class="total_amount">
+              <a href="javascript:if(confirm('Close this tab?'))window.close()" class="btn btn-block btn-success">OK</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <table class="table table-striped" id="transaction-details-table">
+        <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Store</th>
+          <th>Date</th>
+          <th>Customer Name</th>
+          <th>Base Cost</th>
+          <th>Shipping Cost</th>
+          <th class="sr-only"></th>
+          <th>Tracking</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% _.each(orderDetails,function(order) { %>
+        <tr>
+          <td><%= order.order_name %></td>
+          <td><%= order.shop %></td>
+          <td><%= sails.moment(order.createdAt).format('MM/DD/YYYY') %></td>
+          <td><%= order.name %></td>
+          <td>$<%= parseFloat(order.total_item_basecost).toFixed(2) %></td>
+          <td>$<%= parseFloat(order.shipping_fee).toFixed(2) %></td>
+          <td class="sr-only transaction_item_cost"><%= parseFloat(order.total_item_price).toFixed(2) %></td>
+          <td>
+            <% if(order.tracking == 'Fulfilled') { %>
+            <a href="/tracking/get?id=<%= order.orderid %>">View</a>
+            <% } %>
+          </td>
+        </tr>
+        <% }) %>
+
+        </tbody>
+      </table>
+
+
+    </div>
+
+
+
+
+
+  </div>
+</div>

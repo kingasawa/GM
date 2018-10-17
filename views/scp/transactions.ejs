@@ -1,0 +1,64 @@
+
+<div class="container" id="seller-page">
+  <aside class="sidenav">
+    <%- partial ('menu-side.ejs') %>
+  </aside>
+
+  <div class="main-content">
+    <div class="head-content">
+      <a class="menu-button" href="#">
+        <div class="menu-arrow aright text-center">
+          <i class="fa fa-chevron-right pull-left"></i>
+        </div>
+      </a>
+      <a class="menu-button" href="#">
+        <div class="sr-only menu-arrow aleft text-center">
+          <i class="fa fa-chevron-left pull-left"></i>
+        </div>
+      </a>
+      <div class="menu-title">
+        <h4><span class="name-param">Transactions</span></h4>
+      </div>
+    </div>
+
+    <div class="detail-content" id="transaction-page">
+      <ul class="breadcrumb">
+        <li><a href="/scp"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active">Transactions</li>
+      </ul>
+
+      <div class="container pull-left" id="filter-by-date">
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary"><i class="fa fa-calendar"></i></button>
+          <a href="?by=today" type="button" class="btn btn-primary">Today</a>
+          <a href="?by=yesterday" type="button" class="btn btn-primary">Yesterday</a>
+          <a href="?by=month" type="button" class="btn btn-primary">This month</a>
+          <a href="?by=lastmonth" type="button" class="btn btn-primary">Last month</a>
+          <a href="/scp/transactions" type="button" class="btn btn-primary">All time</a>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+
+
+      <table class="table table-striped" id="scp-transaction-table">
+
+        <thead>
+        <tr>
+          <th>Details</th>
+          <th>Date/Time Created</th>
+          <th>Batch ID</th>
+          <th>Orders</th>
+          <th>Total Amount</th>
+          <th>Download</th>
+        </tr>
+        </thead>
+
+      </table>
+    </div>
+
+
+
+
+
+  </div>
+</div>
